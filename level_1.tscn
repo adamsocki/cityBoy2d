@@ -80,11 +80,11 @@ scale = Vector2(314.188, 1.86111)
 texture = ExtResource("3_0qa7e")
 
 [node name="Player" parent="." instance=ExtResource("1_3auba")]
-position = Vector2(635.5, 704)
+position = Vector2(1714, 859)
 gravity = 1400.0
-acceleration = 350.0
-max_speed = 300.0
-friction = 750.0
+acceleration = 250.0
+max_speed = 200.0
+friction = 400.0
 jump_accel = 450.0
 drop_accel = 1000.0
 

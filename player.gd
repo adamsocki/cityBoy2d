@@ -1,5 +1,13 @@
 extends CharacterBody2D
 
+enum PlayerState {
+	IDLE,
+	WALK, 
+	JUMP_UP,
+	JUMP_DOWN, 
+	ATTACK,
+}
+
 @export var gravity: float
 
 @export var acceleration: float
@@ -14,66 +22,40 @@ var isJumping: bool = false
 var initJump: bool = false
 var isDropping: bool = false
 
+var current_state = PlayerState.IDLE
+
+@onready var _animated_sprite = $AnimatedSprite2D
+@onready var ground_ray := $GroundRay
+	
+
 
 func _physics_process(delta):
 	var input_dir = Input.get_action_strength("right") - Input.get_action_strength("left")
-	#print("dec", friction)
-
-	if input_dir != 0 and !isDropping:
+	
+	# Handle horizontal movement
+	if input_dir != 0:
 		velocity.x += input_dir * acceleration * delta
 		velocity.x = clamp(velocity.x, -max_speed, max_speed)
 	else:
-		if (abs(velocity.x) > 0):
-			var deceleration = friction * delta
-			velocity.x -= sign(velocity.x) * min(abs(velocity.x), deceleration)
-
-	if not is_on_floor():
+		var friction = 1000.0
+		velocity.x = move_toward(velocity.x, 0, friction * delta)
+	
+	# Handle vertical movement
+	if not is_grounded():
 		velocity.y += gravity * delta
 		if isJumping and Input.is_action_just_pressed("jump"):
 			drop()
-			#print("drop")
-
-	if is_on_floor() and Input.is_action_just_pressed("jump"):
+	elif Input.is_action_just_pressed("jump"):
 		jump()
-
-	if initJump:
-		pass
-
-
+	
+	# Set up floor parameters
+	floor_snap_length = 32  # Adjust based on tile size
+	floor_max_angle = deg_to_rad(45)  # Maximum slope angle
+	floor_stop_on_slope = true  # Prevent sliding
+	
+	# Apply movement
 	move_and_slide()
-	#print("vel", velocity)
-
-	if is_on_floor():
-		#print("The character is on the floor!")
-		if isJumping:
-			isJumping = false
-		if isDropping:
-			isDropping = false
-	else:
-		pass
-		#print("The character is not on the floor!")
-		
-	if $RayCast2D.collision_mask == 1:
-		print("ray hit 1")
-	var rayCollission = $RayCast2D.get_collider()
-	
-	if (rayCollission):
-		print("ray collide: ", rayCollission.name)
-	if $RayCast2D.is_colliding():
-		var character_pos = global_position
-		var ray_pos = $RayCast2D.global_position
-		var collision_pos = $RayCast2D.get_collision_point()
-	
-		print("Character position Y: ", character_pos.y)
-		print("Ray position Y: ", ray_pos.y)
-		print("Collision point Y: ", collision_pos.y)
-		print("Distance to ground: ", collision_pos.y - ray_pos.y)
-
-		
-	
-	
-
-
+	update_animation_state()
 
 
 func drop():
@@ -87,18 +69,52 @@ func jump():
 	isJumping = true
 
 
+func update_animation_state():
+	if velocity.x != 0:
+		_animated_sprite.flip_h = velocity.x < 0
+	
+	# Determine the new state
+	var new_state = current_state
+	
+	if is_grounded():
+		if abs(velocity.x) > 0:
+			new_state = PlayerState.WALK
+		else:
+			new_state = PlayerState.IDLE
+	else:
+		# Check if we're moving up or down
+		if velocity.y < 0:
+			new_state = PlayerState.JUMP_UP
+		else:
+			new_state = PlayerState.JUMP_DOWN
+	
+	# Only change animation if state changed
+	if new_state != current_state:
+		current_state = new_state
+		match current_state:
+			PlayerState.IDLE:
+				_animated_sprite.play("idle")
+			PlayerState.WALK:
+				_animated_sprite.play("walk")
+			PlayerState.JUMP_UP:
+				_animated_sprite.play("jump_up")
+			PlayerState.JUMP_DOWN:
+				_animated_sprite.play("jump_down")
 
+func is_grounded() -> bool:
+	# Combine both checks for more reliable ground detection
+	return is_on_floor() or _is_close_to_ground()
 
-
-
-
-
-
+func _is_close_to_ground() -> bool:
+	if ground_ray.is_colliding():
+		var distance_to_ground = ground_ray.get_collision_point().y - global_position.y
+		return distance_to_ground < 1.0
+	return false
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+	_animated_sprite.play("idle")
 	pass # Replace with function body.
 
 
