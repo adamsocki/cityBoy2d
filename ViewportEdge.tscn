@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cg4jo8iiis13b"]
+
+[ext_resource type="Script" path="res://viewport_edge.gd" id="1_qfrlg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_umkm7"]
+size = Vector2(405, 1699)
+
+[node name="ViewportEdge" type="Area2D"]
+script = ExtResource("1_qfrlg")
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(203.5, 850.5)
+shape = SubResource("RectangleShape2D_umkm7")

@@ -1,0 +1,43 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1735330077
+icon.svg::CompressedTexture2D::7382799003345678982::1735221007::1735221031::1::::<><>::
+level_1.tscn::PackedScene::575410432955233342::1735329853::0::1::::<><>::uid://dmdrl0thpaxpr::::res://player.tscn<>uid://ddgjvd2uyl6so::::res://icon.svg<>uid://bh2a3kfwnuv4::::res://Sidescroller Shooter - Central City/Background/Frontal Fog.png<>uid://l6ehu5kfhc6c::::res://Sidescroller Shooter - Central City/Assets/Tiles.png
+player.gd::GDScript::-1::1735329757::0::1::::<>CharacterBody2D<>::
+player.tscn::PackedScene::8008774483381012475::1735329853::0::1::::<><>::res://player.gd
+testTile.webp::CompressedTexture2D::6542247207210470660::1735323210::1735323231::1::::<><>::
+tilesettest.jpg.webp::CompressedTexture2D::4041958538251568089::1735323270::1735323274::1::::<><>::
+::res://Action Pack - CITY/::1735330062
+Autor_note.txt::TextFile::-1::1735329987::0::1::::<><>::
+::res://Action Pack - CITY/Assets/::1735330077
+Assets_City.png::CompressedTexture2D::7376600966964731776::1735329987::1735329997::1::::<><>::
+::res://Action Pack - CITY/Legacy Action Pack - CHARACTER/::1735329987
+::res://Action Pack - CITY/Legacy Action Pack - CHARACTER/Aseprite/::1735329987
+::res://Action Pack - CITY/Legacy Action Pack - CHARACTER/Gifs/::1735329997
+Social.png::CompressedTexture2D::3992927450182349856::1735329987::1735329997::1::::<><>::
+::res://Action Pack - CITY/Legacy Action Pack - CHARACTER/Sheets/::1735329997
+Full-Sheet-Green.png::CompressedTexture2D::8365438081033539079::1735329987::1735329997::1::::<><>::
+Full-Sheet.png::CompressedTexture2D::921188529413780646::1735329987::1735329997::1::::<><>::
+Shot-Sheet.png::CompressedTexture2D::4472586409600919775::1735329987::1735329997::1::::<><>::
+::res://Action Pack - CITY/Social/::1735329998
+Assets_city.png::CompressedTexture2D::1591581573336578578::1735329987::1735329998::1::::<><>::
+MockUp-01.png::CompressedTexture2D::5406641686967423625::1735329987::1735329997::1::::<><>::
+Test_city_1.png::CompressedTexture2D::6298897700216884388::1735329987::1735329997::1::::<><>::
+Test_city_2.png::CompressedTexture2D::7702640611244433086::1735329987::1735329997::1::::<><>::
+::res://DarkSamuraiAssets/::1735330074
+DarkSamurai (64x64).png::CompressedTexture2D::2633299289317106477::1735330071::1735330079::1::::<><>::
+::res://Sidescroller Shooter - Central City/::1735324113
+::res://Sidescroller Shooter - Central City/Assets/::1735324113
+Buildings.png::CompressedTexture2D::7519579664549492600::1735324111::1735324113::1::::<><>::
+Props-01.png::CompressedTexture2D::4187957977311132375::1735324111::1735324113::1::::<><>::
+Tiles.png::CompressedTexture2D::836329456195059184::1735324111::1735324113::1::::<><>::
+::res://Sidescroller Shooter - Central City/Background/::1735324113
+Background Props.png::CompressedTexture2D::7001751859580253076::1735324111::1735324113::1::::<><>::
+Base Color.png::CompressedTexture2D::7282381110413685287::1735324111::1735324113::1::::<><>::
+Frontal Fog.png::CompressedTexture2D::86280333080104863::1735324111::1735324113::1::::<><>::
+Mid Fog.png::CompressedTexture2D::5602240464937163245::1735324111::1735324113::1::::<><>::
+::res://Sidescroller Shooter - Central City/Social/::1735329995
+Background Props.png::CompressedTexture2D::5610686007686278853::1735324111::1735324113::1::::<><>::
+Buildings.png::CompressedTexture2D::7207542034719724720::1735324111::1735324114::1::::<><>::
+MockUp-01.png::CompressedTexture2D::2676772123871779426::1735324111::1735324113::1::::<><>::
+Props-01.png::CompressedTexture2D::3433256315565070019::1735324111::1735324113::1::::<><>::
+Tiles.png::CompressedTexture2D::5879708762207018681::1735324111::1735324113::1::::<><>::
