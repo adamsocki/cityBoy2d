@@ -32,7 +32,6 @@ var current_state = PlayerState.IDLE
 func _physics_process(delta):
 	var input_dir = Input.get_action_strength("right") - Input.get_action_strength("left")
 	
-	# Handle horizontal movement
 	if input_dir != 0:
 		velocity.x += input_dir * acceleration * delta
 		velocity.x = clamp(velocity.x, -max_speed, max_speed)
@@ -40,7 +39,6 @@ func _physics_process(delta):
 		var friction = 1000.0
 		velocity.x = move_toward(velocity.x, 0, friction * delta)
 	
-	# Handle vertical movement
 	if not is_grounded():
 		velocity.y += gravity * delta
 		if isJumping and Input.is_action_just_pressed("jump"):
@@ -48,12 +46,10 @@ func _physics_process(delta):
 	elif Input.is_action_just_pressed("jump"):
 		jump()
 	
-	# Set up floor parameters
-	floor_snap_length = 32  # Adjust based on tile size
-	floor_max_angle = deg_to_rad(45)  # Maximum slope angle
-	floor_stop_on_slope = true  # Prevent sliding
+	floor_snap_length = 32
+	floor_max_angle = deg_to_rad(45) 
+	floor_stop_on_slope = true
 	
-	# Apply movement
 	move_and_slide()
 	update_animation_state()
 
