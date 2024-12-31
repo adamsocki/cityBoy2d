@@ -62,23 +62,16 @@ func _physics_process(delta: float) -> void:
 	var center = screen_size / 2
 	
 	if use_dead_zone:
-		#dead_zone_rect.position = get_parent().global_position
 		var target_viewport_pos = get_viewport_transform() * (target_pos)
-		#print(get_viewport().get_visible_rect().position)
-		#var screen_position = get_transform().xform_inv(global_position)
-		print(target_viewport_pos)
-		# CHECK 1
-		#
-		#
-		#
-		#if target_viewport_pos.x > center.x - dead_zone_width / 2:
-			#print("target.x > deadzone.x1")
-		
-		
 		if is_target_in_zone(target_viewport_pos):
 			print("target in deadzone")
 		else:
 			print("target not deadzone")
+			#if target_viewport_pos.x < dead_zone_rect.position.x:
+				#camera_target.x = target_pos.x + dead_zone_rect.position.x
+			#elif target_viewport_pos.x > dead_zone_rect.end.x:
+				#camera_target.x = target_pos.x - (get_viewport_rect().size.x - dead_zone_rect.end.x)
+			#
 		pass
 
 
