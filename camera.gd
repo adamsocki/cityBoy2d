@@ -62,18 +62,39 @@ func _physics_process(delta: float) -> void:
 	var center = screen_size / 2
 	
 	if use_dead_zone:
-		var target_viewport_pos = get_viewport_transform() * (target_pos)
-		if is_target_in_zone(target_viewport_pos):
-			print("target in deadzone")
+		var viewport_pos = get_viewport_transform() * target.global_position
+		#print("viewport pos, ", viewport_pos)
+		
+		if is_target_in_zone(viewport_pos):
+			pass
 		else:
-			print("target not deadzone")
-			#if target_viewport_pos.x < dead_zone_rect.position.x:
-				#camera_target.x = target_pos.x + dead_zone_rect.position.x
-			#elif target_viewport_pos.x > dead_zone_rect.end.x:
-				#camera_target.x = target_pos.x - (get_viewport_rect().size.x - dead_zone_rect.end.x)
-			#
-		pass
+			if viewport_pos.x < center.x - dead_zone_width / 2:
+				camera_pos.x = viewport_pos.x + dead_zone_rect.position.x
+		#var target_viewport_pos = get_viewport_transform() * (target_pos)
+		#print("VPT, ", get_viewport_transform())
+		#if is_target_in_zone(target_viewport_pos):
+			#print("target in deadzone")
+			#print("In Zone: target_viewport_pos:, ", target_viewport_pos)
+			#print("In Zone: cameraPos", camera_pos)
+		#else:
+			#if target_viewport_pos.x < center.x - dead_zone_width / 2:
+				#camera_pos.x = target_viewport_pos.x + dead_zone_rect.position.x
+				##camera_pos.x = target_viewport_pos.x + (get_viewport_rect().size.x - dead_zone_rect.end.x / 2)
+				##camera_pos.x = target_viewport_pos.x + dead_zone_rect.position.x
+			#print("Not In Zone: target_viewport_pos:, ", target_viewport_pos)
+			#print("Not In Zone: cameraPos", camera_pos)
+			#print("target not deadzone")
+			##if target_viewport_pos.x < dead_zone_rect.position.x:
+				##camera_target.x = target_pos.x + dead_zone_rect.position.x
+			##elif target_viewport_pos.x > dead_zone_rect.end.x:
+				##camera_target.x = target_pos.x - (get_viewport_rect().size.x - dead_zone_rect.end.x)
+			##
+			
+			
+	global_position = global_position.lerp(camera_pos, follow_speed * delta)
 
+	#print("GlobalPos:, ", global_position)
+	#print("GlobalPos:, ", global_position)
 
 
 

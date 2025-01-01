@@ -76,6 +76,8 @@ sources/0 = SubResource("TileSetAtlasSource_ajdq7")
 
 [node name="Camera" parent="." instance=ExtResource("1_mvtv6")]
 target_path = NodePath("../Player")
+follow_speed = 1.0
+look_ahead_factor = 1.0
 dead_zone_width = 800.0
 dead_zone_height = 800.0
 
