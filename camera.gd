@@ -46,52 +46,98 @@ func update_dead_zone() -> void:
 	
 	#print(dead_zone_rect)
 
+func _process(delta):
+	print("camera Position", get_transform())
+	print("target transform", target.get_transform())
+	print("target get global transform with cangvas", target.get_global_transform_with_canvas())
+	print("get_viewport_rect().size.x", get_viewport_rect().size.x)
+	
+	if !target:
+		return
+		
+	# Get the target's position relative to the camera's viewport
+	var target_pos = target.get_global_position()
+	#var camera_pos = global_position
+	var camera_pos = global_position
+	var new_camera_pos = camera_pos
+	
+	# Convert target position to camera's local coordinates
+	var target_local_pos = target_pos - camera_pos
+	
+	# Check if target is outside dead zone and calculate new position
+	if abs(target_local_pos.x) > dead_zone_width / 2:
+		# Move camera horizontally
+		var offset_x = target_local_pos.x - (sign(target_local_pos.x) * dead_zone_width / 2)
+		new_camera_pos.x = camera_pos.x + offset_x
+	
+	if abs(target_local_pos.y) > dead_zone_height / 2:
+		# Move camera vertically
+		var offset_y = target_local_pos.y - (sign(target_local_pos.y) * dead_zone_height / 2)
+		new_camera_pos.y = camera_pos.y + offset_y
+	
+	# Smoothly move camera to new position
+	if new_camera_pos != camera_pos:
+		global_position = global_position.lerp(new_camera_pos, follow_speed * delta)
+
+	#else:
+		#global_position = -global_position.lerp(camera_pos, follow_speed * delta)
+
+
 func _physics_process(delta: float) -> void:
 	if not target:
 		return
-	
-	var target_pos = target.global_position
-	var camera_pos = global_position
-	
-	
-	var screenSize = get_viewport_rect().size
-	var topLeftPos = global_position - screenSize
-	
-	
-	var screen_size = get_viewport_rect().size
-	var center = screen_size / 2
-	
-	if use_dead_zone:
-		var viewport_pos = get_viewport_transform() * target.global_position
-		#print("viewport pos, ", viewport_pos)
-		
-		if is_target_in_zone(viewport_pos):
-			pass
-		else:
-			if viewport_pos.x < center.x - dead_zone_width / 2:
-				camera_pos.x = viewport_pos.x + dead_zone_rect.position.x
-		#var target_viewport_pos = get_viewport_transform() * (target_pos)
-		#print("VPT, ", get_viewport_transform())
-		#if is_target_in_zone(target_viewport_pos):
-			#print("target in deadzone")
-			#print("In Zone: target_viewport_pos:, ", target_viewport_pos)
-			#print("In Zone: cameraPos", camera_pos)
+	pass
+	#var target_pos = target.global_position
+	#var camera_pos = global_position
+	#
+	#
+	#var screenSize = get_viewport_rect().size
+	#var topLeftPos = global_position - screenSize
+	#
+	#
+	#var screen_size = get_viewport_rect().size
+	#var center = screen_size / 2
+	#
+	#if use_dead_zone:
+		#var viewport_pos = get_viewport_transform() * target.global_position
+		##print("viewport pos, ", viewport_pos)
+		#print("Target: ", target)
+		#print("target position get_viewport_transform:" , target.get_transform())
+		#print("target.global_position: ", target.global_position)
+		#if is_target_in_zone(viewport_pos):
+			##pass
+			#print("camera_pos:" , camera_pos)
+			#print("viewport_pos:", viewport_pos)
+			#print("center:", center)
 		#else:
-			#if target_viewport_pos.x < center.x - dead_zone_width / 2:
-				#camera_pos.x = target_viewport_pos.x + dead_zone_rect.position.x
-				##camera_pos.x = target_viewport_pos.x + (get_viewport_rect().size.x - dead_zone_rect.end.x / 2)
+			#if viewport_pos.x < center.x - dead_zone_width / 2:
+				#camera_pos.x = viewport_pos.x + dead_zone_rect.position.x
+				#print("camera_pos:" , camera_pos)
+				#print("viewport_pos:", viewport_pos)
+				#print("center:", center)
+				##print("viewport_pos:", viewport_pos)
+		##var target_viewport_pos = get_viewport_transform() * (target_pos)
+		##print("VPT, ", get_viewport_transform())
+		##if is_target_in_zone(target_viewport_pos):
+			##print("target in deadzone")
+			##print("In Zone: target_viewport_pos:, ", target_viewport_pos)
+			##print("In Zone: cameraPos", camera_pos)
+		##else:
+			##if target_viewport_pos.x < center.x - dead_zone_width / 2:
 				##camera_pos.x = target_viewport_pos.x + dead_zone_rect.position.x
-			#print("Not In Zone: target_viewport_pos:, ", target_viewport_pos)
-			#print("Not In Zone: cameraPos", camera_pos)
-			#print("target not deadzone")
-			##if target_viewport_pos.x < dead_zone_rect.position.x:
-				##camera_target.x = target_pos.x + dead_zone_rect.position.x
-			##elif target_viewport_pos.x > dead_zone_rect.end.x:
-				##camera_target.x = target_pos.x - (get_viewport_rect().size.x - dead_zone_rect.end.x)
-			##
-			
-			
-	global_position = global_position.lerp(camera_pos, follow_speed * delta)
+				###camera_pos.x = target_viewport_pos.x + (get_viewport_rect().size.x - dead_zone_rect.end.x / 2)
+				###camera_pos.x = target_viewport_pos.x + dead_zone_rect.position.x
+			##print("Not In Zone: target_viewport_pos:, ", target_viewport_pos)
+			##print("Not In Zone: cameraPos", camera_pos)
+			##print("target not deadzone")
+			###if target_viewport_pos.x < dead_zone_rect.position.x:
+				###camera_target.x = target_pos.x + dead_zone_rect.position.x
+			###elif target_viewport_pos.x > dead_zone_rect.end.x:
+				###camera_target.x = target_pos.x - (get_viewport_rect().size.x - dead_zone_rect.end.x)
+			###
+			#
+			#
+	#global_position = global_position.lerp(camera_pos, follow_speed * delta)
 
 	#print("GlobalPos:, ", global_position)
 	#print("GlobalPos:, ", global_position)

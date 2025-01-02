@@ -78,8 +78,7 @@ sources/0 = SubResource("TileSetAtlasSource_ajdq7")
 target_path = NodePath("../Player")
 follow_speed = 1.0
 look_ahead_factor = 1.0
-dead_zone_width = 800.0
-dead_zone_height = 800.0
+dead_zone_width = 250.0
 
 [node name="FrontalFog" type="Sprite2D" parent="."]
 position = Vector2(666.5, 1036)
