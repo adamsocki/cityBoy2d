@@ -8,19 +8,23 @@ enum PlayerState {
 	ATTACK,
 }
 
-@export var gravity: float
-
-@export var acceleration: float
+@export var GRAVITY: float
+@export var ACCELERATION: float
 @export var max_speed: float
-@export var friction: float
+@export var FRICTION: float
 @export var jump_accel: float
 @export var drop_accel: float
+@export var JUMP_VELOCITY: float
+@export var MAX_FALL_SPEED: float
+@export var COYOTE_TIME: float
 
 #var velocity = Vector2()
 var runDeceleate: bool = false
-var isJumping: bool = false
+var isJumping: bool
 var initJump: bool = false
 var isDropping: bool = false
+var coyoteTimer: Timer
+var prevFrameOnFloor: bool = false
 
 var current_state = PlayerState.IDLE
 
@@ -31,26 +35,27 @@ var current_state = PlayerState.IDLE
 
 func _physics_process(delta):
 	var input_dir = Input.get_action_strength("right") - Input.get_action_strength("left")
-	
-	if input_dir != 0:
-		velocity.x += input_dir * acceleration * delta
-		velocity.x = clamp(velocity.x, -max_speed, max_speed)
+
+	if Input.is_action_just_pressed("jump"):
+		velocity.y = JUMP_VELOCITY / 4
+		isJumping = true
+		prevFrameOnFloor = true
+	print("v.y", velocity.y)
+
+	if is_on_floor() and !prevFrameOnFloor:
+		#if isJumping:
+		print("is on floor")
+		isJumping = false
 	else:
-		var friction = 1000.0
-		velocity.x = move_toward(velocity.x, 0, friction * delta)
-	
-	if not is_grounded():
-		velocity.y += gravity * delta
-		if isJumping and Input.is_action_just_pressed("jump"):
-			drop()
-	elif Input.is_action_just_pressed("jump"):
-		jump()
-	
-	floor_snap_length = 32
-	floor_max_angle = deg_to_rad(45) 
-	floor_stop_on_slope = true
-	
+		velocity.y += GRAVITY * delta
+		#print
+
+	if input_dir != 0:
+		velocity.x = move_toward(velocity.x, input_dir * max_speed, ACCELERATION * delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 	move_and_slide()
+	print("is jump?: ", isJumping)
 	update_animation_state()
 
 
@@ -77,13 +82,22 @@ func update_animation_state():
 			new_state = PlayerState.WALK
 		else:
 			new_state = PlayerState.IDLE
-	else:
-		# Check if we're moving up or down
+	#else:
+		## Check if we're moving up or down
+		#if velocity.y < 0:
+			#new_state = PlayerState.JUMP_UP
+		#else:
+			#new_state = PlayerState.JUMP_DOWN
+	if isJumping:
 		if velocity.y < 0:
+			print("PlayerState.JUMP_UP")
 			new_state = PlayerState.JUMP_UP
-		else:
+		if velocity.y > 0:
+			print("PlayerState.JUMP_DOWN")
 			new_state = PlayerState.JUMP_DOWN
 	
+	print ("newState: ", new_state)
+	print ("current_state: ", current_state)
 	# Only change animation if state changed
 	if new_state != current_state:
 		current_state = new_state
@@ -96,6 +110,8 @@ func update_animation_state():
 				_animated_sprite.play("jump_up")
 			PlayerState.JUMP_DOWN:
 				_animated_sprite.play("jump_down")
+				
+	
 
 func is_grounded() -> bool:
 	# Combine both checks for more reliable ground detection
@@ -108,12 +124,12 @@ func _is_close_to_ground() -> bool:
 	return false
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	_animated_sprite.play("idle")
-	pass # Replace with function body.
+	coyoteTimer = Timer.new()
+	coyoteTimer.wait_time = COYOTE_TIME
+	add_child(coyoteTimer)
+	
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

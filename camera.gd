@@ -1,7 +1,7 @@
 extends Camera2D
 
 # Camera follow properties
-@export var target_path: NodePath  # Path to the player node
+@export var target_path: NodePath 
 @export var follow_speed: float = 5.0
 @export var look_ahead_factor: float = 0.2
 
@@ -20,37 +20,27 @@ var target: Node2D
 var dead_zone_rect: Rect2
 
 func _ready() -> void:
-	# Get the target node (usually the player)
 	if target_path:
 		target = get_node(target_path)
 		global_position = target.global_position
 	
-	# Initialize dead zone rectangle
 	update_dead_zone()
 
 func update_dead_zone() -> void:
 	var screen_size = get_viewport_rect().size
 	var center = screen_size / 2
-	#dead_zone_rect = Rect2(
-		#-screen_size.x - dead_zone_width/2,
-		#center.y - dead_zone_height/2,
-		#dead_zone_width,
-		#dead_zone_height
-	#)
-	# INIT POSITION and SIZE of DEAD ZONE
+	
 	dead_zone_rect.position = get_parent().global_position
 	dead_zone_rect.position.x -= dead_zone_width  / 2
 	dead_zone_rect.position.y -= dead_zone_height / 2
 	
 	dead_zone_rect.size = Vector2(dead_zone_width,dead_zone_height)
-	
-	#print(dead_zone_rect)
 
 func _process(delta):
-	print("camera Position", get_transform())
-	print("target transform", target.get_transform())
-	print("target get global transform with cangvas", target.get_global_transform_with_canvas())
-	print("get_viewport_rect().size.x", get_viewport_rect().size.x)
+	#print("camera Position", get_transform())
+	#print("target transform", target.get_transform())
+	#print("target get global transform with cangvas", target.get_global_transform_with_canvas())
+	#print("get_viewport_rect().size.x", get_viewport_rect().size.x)
 	
 	if !target:
 		return
@@ -64,148 +54,21 @@ func _process(delta):
 	# Convert target position to camera's local coordinates
 	var target_local_pos = target_pos - camera_pos
 	
-	# Check if target is outside dead zone and calculate new position
 	if abs(target_local_pos.x) > dead_zone_width / 2:
-		# Move camera horizontally
 		var offset_x = target_local_pos.x - (sign(target_local_pos.x) * dead_zone_width / 2)
 		new_camera_pos.x = camera_pos.x + offset_x
 	
 	if abs(target_local_pos.y) > dead_zone_height / 2:
-		# Move camera vertically
 		var offset_y = target_local_pos.y - (sign(target_local_pos.y) * dead_zone_height / 2)
 		new_camera_pos.y = camera_pos.y + offset_y
 	
-	# Smoothly move camera to new position
 	if new_camera_pos != camera_pos:
 		global_position = global_position.lerp(new_camera_pos, follow_speed * delta)
-
-	#else:
-		#global_position = -global_position.lerp(camera_pos, follow_speed * delta)
-
 
 func _physics_process(delta: float) -> void:
 	if not target:
 		return
-	pass
-	#var target_pos = target.global_position
-	#var camera_pos = global_position
-	#
-	#
-	#var screenSize = get_viewport_rect().size
-	#var topLeftPos = global_position - screenSize
-	#
-	#
-	#var screen_size = get_viewport_rect().size
-	#var center = screen_size / 2
-	#
-	#if use_dead_zone:
-		#var viewport_pos = get_viewport_transform() * target.global_position
-		##print("viewport pos, ", viewport_pos)
-		#print("Target: ", target)
-		#print("target position get_viewport_transform:" , target.get_transform())
-		#print("target.global_position: ", target.global_position)
-		#if is_target_in_zone(viewport_pos):
-			##pass
-			#print("camera_pos:" , camera_pos)
-			#print("viewport_pos:", viewport_pos)
-			#print("center:", center)
-		#else:
-			#if viewport_pos.x < center.x - dead_zone_width / 2:
-				#camera_pos.x = viewport_pos.x + dead_zone_rect.position.x
-				#print("camera_pos:" , camera_pos)
-				#print("viewport_pos:", viewport_pos)
-				#print("center:", center)
-				##print("viewport_pos:", viewport_pos)
-		##var target_viewport_pos = get_viewport_transform() * (target_pos)
-		##print("VPT, ", get_viewport_transform())
-		##if is_target_in_zone(target_viewport_pos):
-			##print("target in deadzone")
-			##print("In Zone: target_viewport_pos:, ", target_viewport_pos)
-			##print("In Zone: cameraPos", camera_pos)
-		##else:
-			##if target_viewport_pos.x < center.x - dead_zone_width / 2:
-				##camera_pos.x = target_viewport_pos.x + dead_zone_rect.position.x
-				###camera_pos.x = target_viewport_pos.x + (get_viewport_rect().size.x - dead_zone_rect.end.x / 2)
-				###camera_pos.x = target_viewport_pos.x + dead_zone_rect.position.x
-			##print("Not In Zone: target_viewport_pos:, ", target_viewport_pos)
-			##print("Not In Zone: cameraPos", camera_pos)
-			##print("target not deadzone")
-			###if target_viewport_pos.x < dead_zone_rect.position.x:
-				###camera_target.x = target_pos.x + dead_zone_rect.position.x
-			###elif target_viewport_pos.x > dead_zone_rect.end.x:
-				###camera_target.x = target_pos.x - (get_viewport_rect().size.x - dead_zone_rect.end.x)
-			###
-			#
-			#
-	#global_position = global_position.lerp(camera_pos, follow_speed * delta)
 
-	#print("GlobalPos:, ", global_position)
-	#print("GlobalPos:, ", global_position)
-
-
-
-	
-	#if use_dead_zone:
-		## Convert target's global position to local viewport coordinates
-		#var target_viewport_pos = get_viewport_transform() * (target_pos - global_position)
-		#
-		## Check if target is outside dead zone and calculate new camera position
-		#if not dead_zone_rect.has_point(target_viewport_pos):
-			## Horizontal movement
-			#if target_viewport_pos.x < dead_zone_rect.position.x:
-				#camera_target.x = target_pos.x + dead_zone_rect.position.x
-			#elif target_viewport_pos.x > dead_zone_rect.end.x:
-				#camera_target.x = target_pos.x - (get_viewport_rect().size.x - dead_zone_rect.end.x)
-			#
-			## Vertical movement
-			#if target_viewport_pos.y < dead_zone_rect.position.y:
-				#camera_target.y = target_pos.y + dead_zone_rect.position.y
-			#elif target_viewport_pos.y > dead_zone_rect.end.y:
-				#camera_target.y = target_pos.y - (get_viewport_rect().size.y - dead_zone_rect.end.y)
-	#else:
-		## Regular follow behavior
-		#camera_target = target_pos
-		#
-		## Add look-ahead based on player velocity if available
-		#if target.has_method("get_velocity"):
-			#var target_velocity = target.get_velocity()
-			#camera_target += target_velocity * look_ahead_factor
-	#
-	## Smoothly move camera to target position
-	#global_position = global_position.lerp(camera_target, follow_speed * delta)
-	#
-	## Apply screen shake if active
-	#if shake_duration > 0:
-		#shake_duration -= delta
-		#offset = default_offset + Vector2(
-			#randf_range(-1.0, 1.0) * shake_amount,
-			#randf_range(-1.0, 1.0) * shake_amount
-		#)
-		#
-		#if shake_duration <= 0:
-			#shake_duration = 0
-			#offset = default_offset
-
-
-func is_target_in_zone(targetPos: Vector2) -> bool:
-	var screen_size = get_viewport_rect().size
-	var center = screen_size / 2
-	print("center.x1_", center.x - dead_zone_width / 2)
-	print("center.x2_", center.x + dead_zone_width / 2)
-		
-	print("center.y_1", center.y - dead_zone_height / 2)
-	print("center.y_2", center.y + dead_zone_height / 2)
-	
-	if targetPos.x < center.x - dead_zone_width / 2:
-		return false
-	if targetPos.x > center.x + dead_zone_width / 2:
-		return false
-	if targetPos.y < center.y - dead_zone_height / 2:
-		return false
-	if targetPos.y > center.y + dead_zone_height / 2:
-		return false
-
-	return true
 #		
 # Function to trigger screen shake
 func shake(amount: float, duration: float) -> void:
