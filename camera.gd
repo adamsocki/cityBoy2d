@@ -4,6 +4,7 @@ extends Camera2D
 @export var target_path: NodePath 
 @export var follow_speed: float = 5.0
 @export var look_ahead_factor: float = 0.2
+@export var debug_camera_mode: bool
 
 # Dead zone properties
 @export var use_dead_zone: bool = true
@@ -77,6 +78,6 @@ func shake(amount: float, duration: float) -> void:
 
 # Optional: Debug draw to visualize dead zone (can be removed in production)
 func _draw() -> void:
-	if use_dead_zone:
+	if use_dead_zone and debug_camera_mode:
 		var color = Color(1, 0, 0, 0.2)
 		draw_rect(dead_zone_rect, color, true)

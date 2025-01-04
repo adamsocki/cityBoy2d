@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://igy6qgfovy27"]
+[gd_scene load_steps=10 format=4 uid="uid://igy6qgfovy27"]
 
 [ext_resource type="PackedScene" uid="uid://b4b2l3ltg0i4q" path="res://camera.tscn" id="1_26o5x"]
 [ext_resource type="Script" path="res://game_manager.gd" id="1_vcm3x"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dmdrl0thpaxpr" path="res://player.tscn" id="3_8busf"]
 [ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_h26xx"]
 [ext_resource type="PackedScene" uid="uid://dndoxlvc5kt3i" path="res://PauseMenu.tscn" id="5_a8nwd"]
+[ext_resource type="PackedScene" uid="uid://btbqqyl5vksp7" path="res://parallax.tscn" id="7_g85su"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ajdq7"]
 texture = ExtResource("4_h26xx")
@@ -109,3 +110,5 @@ dead_zone_width = 250.0
 
 [node name="PauseMenu" parent="Camera" instance=ExtResource("5_a8nwd")]
 visible = false
+
+[node name="Parallax" parent="." instance=ExtResource("7_g85su")]
