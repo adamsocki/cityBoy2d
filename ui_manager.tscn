@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://q1ua1as0by2v"]
+
+[ext_resource type="Script" path="res://ui_manager.gd" id="1_g6jwp"]
+
+[node name="UiManager" type="Node2D"]
+script = ExtResource("1_g6jwp")
+
+[node name="IN_GAME" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="time" type="Label" parent="IN_GAME"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 42.0
+offset_right = 85.0
+offset_bottom = 65.0
+text = "game time: "
