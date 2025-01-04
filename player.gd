@@ -40,11 +40,12 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY / 4
 		isJumping = true
 		prevFrameOnFloor = true
-	print("v.y", velocity.y)
+#	print("v.y", velocity.y)
+	print("on floor ? ", is_on_floor())
 
-	if is_on_floor() and !prevFrameOnFloor:
+	if (is_on_floor() or _is_close_to_ground()):
 		#if isJumping:
-		print("is on floor")
+#		print("is on floor")
 		isJumping = false
 	else:
 		velocity.y += GRAVITY * delta
@@ -55,6 +56,8 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 	move_and_slide()
+	print("motion mode:, ", motion_mode)
+	
 	print("is jump?: ", isJumping)
 	update_animation_state()
 
@@ -77,7 +80,7 @@ func update_animation_state():
 	# Determine the new state
 	var new_state = current_state
 	
-	if is_grounded():
+	if is_grounded() or _is_close_to_ground():
 		if abs(velocity.x) > 0:
 			new_state = PlayerState.WALK
 		else:
@@ -90,14 +93,14 @@ func update_animation_state():
 			#new_state = PlayerState.JUMP_DOWN
 	if isJumping:
 		if velocity.y < 0:
-			print("PlayerState.JUMP_UP")
+		#	print("PlayerState.JUMP_UP")
 			new_state = PlayerState.JUMP_UP
 		if velocity.y > 0:
-			print("PlayerState.JUMP_DOWN")
+		#	print("PlayerState.JUMP_DOWN")
 			new_state = PlayerState.JUMP_DOWN
 	
-	print ("newState: ", new_state)
-	print ("current_state: ", current_state)
+	#print ("newState: ", new_state)
+	#print ("current_state: ", current_state)
 	# Only change animation if state changed
 	if new_state != current_state:
 		current_state = new_state
@@ -119,12 +122,18 @@ func is_grounded() -> bool:
 
 func _is_close_to_ground() -> bool:
 	if ground_ray.is_colliding():
-		var distance_to_ground = ground_ray.get_collision_point().y - global_position.y
-		return distance_to_ground < 1.0
+		print("ground Ray. collission: ", ground_ray.get_collider())
+		print("ground ray. distance, ", ground_ray.target_position)
+		var distance_to_ground = ground_ray.get_collision_point().y - ground_ray.global_position.y
+		#print ("GR.GP.y: ", ground_ray.global_position.y)
+		return abs(distance_to_ground) < 14.0
 	return false
 
 
 func _ready():
+	set_slide_on_ceiling_enabled(false)
+	set_floor_stop_on_slope_enabled(false)
+	floor_snap_length = 10
 	_animated_sprite.play("idle")
 	coyoteTimer = Timer.new()
 	coyoteTimer.wait_time = COYOTE_TIME
