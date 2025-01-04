@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ctg6avfkqemlt" path="res://backgrounds/city background/evening/evening buildings front.png" id="3_x4hlf"]
 [ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_24qt6"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_okrqq"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g72vk"]
 texture = ExtResource("4_24qt6")
 0:0/0 = 0
 1:0/0 = 0
@@ -64,7 +64,7 @@ texture = ExtResource("4_24qt6")
 5:8/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_ou60d"]
-sources/0 = SubResource("TileSetAtlasSource_okrqq")
+sources/0 = SubResource("TileSetAtlasSource_g72vk")
 
 [node name="Parallax" type="Node2D"]
 
@@ -83,7 +83,7 @@ centered = false
 motion_scale = Vector2(0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
-position = Vector2(1069, -360)
+position = Vector2(871, -623)
 scale = Vector2(2.59444, 2.59444)
 texture = ExtResource("2_3tuck")
 centered = false
@@ -108,6 +108,7 @@ texture = ExtResource("2_0qlja")
 centered = false
 
 [node name="TileMapLayer" type="TileMapLayer" parent="ParallaxBackground/ParallaxLayer4"]
+position = Vector2(0.000309039, -2.53168)
 tile_map_data = PackedByteArray("AAAqAAYAAAAFAAgAAAArAAYAAAAFAAgAAAAsAAYAAAAEAAcAAAAtAAYAAAAFAAcAAAAuAAYAAAAFAAgAAAAvAAYAAAAFAAcAAAAwAAYAAAAFAAgAAAAxAAYAAAAEAAgAAAAyAAYAAAAFAAcAAAAzAAYAAAAFAAgAAAA0AAYAAAAEAAgAAAA1AAYAAAAFAAgAAAA2AAYAAAAFAAcAAAA3AAYAAAAEAAcAAAA4AAYAAAAFAAgAAAA5AAYAAAAEAAcAAAA6AAYAAAAEAAgAAAA7AAYAAAAFAAgAAAA8AAYAAAAEAAgAAAA9AAYAAAAEAAgAAAA+AAYAAAAFAAgAAAA/AAYAAAAFAAcAAABAAAYAAAAEAAcAAABBAAYAAAAEAAcAAABCAAYAAAAFAAcAAABDAAYAAAAEAAgAAABEAAYAAAAFAAcAAABFAAYAAAAFAAgAAABGAAYAAAAFAAcAAAA=")
 tile_set = SubResource("TileSet_ou60d")
 
