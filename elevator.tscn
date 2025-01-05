@@ -4,11 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://dpob1g1ur042n" path="res://backgrounds/sprites/elevator001.png" id="1_t4b0g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jawea"]
+size = Vector2(32, 54)
 
 [node name="Elevator" type="Area2D"]
 script = ExtResource("1_d8338")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1, 0.84375)
 texture = ExtResource("1_t4b0g")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

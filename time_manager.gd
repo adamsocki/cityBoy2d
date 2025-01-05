@@ -16,15 +16,10 @@ var game_time: float
 var time_of_day: TimeOfDay = TimeOfDay.EVENING
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+func init_time_manager():
 	game_time = 0
-	pass # Replace with function body.
+
 
 func update_time_manager(delta):
 	game_time += delta
 	print(game_time)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
