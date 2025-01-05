@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bh2a3kfwnuv4"
-path="res://.godot/imported/Frontal Fog.png-6b16f734403c364825aa0b034db78bac.ctex"
+uid="uid://dfesm4qvogrlo"
+path="res://.godot/imported/Buildings.png-8c1ad436799420ab5852ad7295172d98.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sidescroller Shooter - Central City/Background/Frontal Fog.png"
-dest_files=["res://.godot/imported/Frontal Fog.png-6b16f734403c364825aa0b034db78bac.ctex"]
+source_file="res://sprites/Sidescroller Shooter - Central City/Assets/Buildings.png"
+dest_files=["res://.godot/imported/Buildings.png-8c1ad436799420ab5852ad7295172d98.ctex"]
 
 [params]
 

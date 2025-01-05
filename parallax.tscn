@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cmkfbwccx4k17" path="res://backgrounds/Futuristic City Parallax/city1plan.png" id="2_0qlja"]
 [ext_resource type="Texture2D" uid="uid://bnitwpp7aamxy" path="res://backgrounds/Futuristic City Parallax/sun.png" id="2_3tuck"]
 [ext_resource type="Texture2D" uid="uid://ctg6avfkqemlt" path="res://backgrounds/city background/evening/evening buildings front.png" id="3_x4hlf"]
-[ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_24qt6"]
+[ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://sprites/Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_24qt6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g72vk"]
 texture = ExtResource("4_24qt6")

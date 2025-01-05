@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=4 uid="uid://cdqyywpmokygu"]
 
 [ext_resource type="Script" path="res://game_manager.gd" id="1_w13s6"]
-[ext_resource type="Texture2D" uid="uid://bh2a3kfwnuv4" path="res://Sidescroller Shooter - Central City/Background/Frontal Fog.png" id="2_0438g"]
+[ext_resource type="Texture2D" uid="uid://bh2a3kfwnuv4" path="res://sprites/Sidescroller Shooter - Central City/Background/Frontal Fog.png" id="2_0438g"]
 [ext_resource type="PackedScene" uid="uid://dmdrl0thpaxpr" path="res://player.tscn" id="3_tq4ya"]
-[ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_yh8la"]
+[ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://sprites/Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_yh8la"]
 [ext_resource type="PackedScene" uid="uid://b4b2l3ltg0i4q" path="res://camera.tscn" id="5_1ke3w"]
 [ext_resource type="PackedScene" uid="uid://dndoxlvc5kt3i" path="res://PauseMenu.tscn" id="6_axv0e"]
 [ext_resource type="PackedScene" uid="uid://q1ua1as0by2v" path="res://ui_manager.tscn" id="7_px524"]

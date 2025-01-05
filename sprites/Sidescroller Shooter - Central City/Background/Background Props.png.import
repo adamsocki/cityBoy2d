@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cl21c10mauybl"
-path="res://.godot/imported/Mid Fog.png-2804e3d741feac7a137fe2b9eded6b7a.ctex"
+uid="uid://c60x3hws0e5x5"
+path="res://.godot/imported/Background Props.png-da7b0c12fbe10fe64f0b47a8a7789762.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sidescroller Shooter - Central City/Background/Mid Fog.png"
-dest_files=["res://.godot/imported/Mid Fog.png-2804e3d741feac7a137fe2b9eded6b7a.ctex"]
+source_file="res://sprites/Sidescroller Shooter - Central City/Background/Background Props.png"
+dest_files=["res://.godot/imported/Background Props.png-da7b0c12fbe10fe64f0b47a8a7789762.ctex"]
 
 [params]
 

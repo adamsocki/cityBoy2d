@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfesm4qvogrlo"
-path="res://.godot/imported/Buildings.png-ffe79540578cecdcb06369b2b4f4edc5.ctex"
+uid="uid://beewbs7cw6ix3"
+path="res://.godot/imported/MockUp-01.png-356898ffc28d437c55b87e42530b798b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sidescroller Shooter - Central City/Assets/Buildings.png"
-dest_files=["res://.godot/imported/Buildings.png-ffe79540578cecdcb06369b2b4f4edc5.ctex"]
+source_file="res://sprites/Sidescroller Shooter - Central City/Social/MockUp-01.png"
+dest_files=["res://.godot/imported/MockUp-01.png-356898ffc28d437c55b87e42530b798b.ctex"]
 
 [params]
 

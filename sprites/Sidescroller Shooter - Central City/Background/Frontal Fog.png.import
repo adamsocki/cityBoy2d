@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp1f7dt42yboj"
-path="res://.godot/imported/Tiles.png-97dc29285f9232cca0a6c843bf7bf71b.ctex"
+uid="uid://bh2a3kfwnuv4"
+path="res://.godot/imported/Frontal Fog.png-6a52f48d70984ef90bd5f0ad7f0d4c4b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sidescroller Shooter - Central City/Social/Tiles.png"
-dest_files=["res://.godot/imported/Tiles.png-97dc29285f9232cca0a6c843bf7bf71b.ctex"]
+source_file="res://sprites/Sidescroller Shooter - Central City/Background/Frontal Fog.png"
+dest_files=["res://.godot/imported/Frontal Fog.png-6a52f48d70984ef90bd5f0ad7f0d4c4b.ctex"]
 
 [params]
 

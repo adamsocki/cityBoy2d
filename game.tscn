@@ -1,15 +1,16 @@
-[gd_scene load_steps=13 format=4 uid="uid://igy6qgfovy27"]
+[gd_scene load_steps=14 format=4 uid="uid://igy6qgfovy27"]
 
 [ext_resource type="PackedScene" uid="uid://b4b2l3ltg0i4q" path="res://camera.tscn" id="1_26o5x"]
 [ext_resource type="Script" path="res://game_manager.gd" id="1_vcm3x"]
-[ext_resource type="Texture2D" uid="uid://bh2a3kfwnuv4" path="res://Sidescroller Shooter - Central City/Background/Frontal Fog.png" id="2_am048"]
+[ext_resource type="Texture2D" uid="uid://bh2a3kfwnuv4" path="res://sprites/Sidescroller Shooter - Central City/Background/Frontal Fog.png" id="2_am048"]
 [ext_resource type="PackedScene" uid="uid://dmdrl0thpaxpr" path="res://player.tscn" id="3_8busf"]
-[ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_h26xx"]
+[ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://sprites/Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_h26xx"]
 [ext_resource type="PackedScene" uid="uid://dndoxlvc5kt3i" path="res://PauseMenu.tscn" id="5_a8nwd"]
 [ext_resource type="PackedScene" uid="uid://btbqqyl5vksp7" path="res://parallax.tscn" id="7_g85su"]
 [ext_resource type="PackedScene" uid="uid://q1ua1as0by2v" path="res://ui_manager.tscn" id="8_6qw3h"]
 [ext_resource type="PackedScene" uid="uid://dvmxs3ptite4y" path="res://time_manager.tscn" id="9_cud6r"]
 [ext_resource type="PackedScene" uid="uid://d4gjeh505imah" path="res://elevator.tscn" id="10_03h7t"]
+[ext_resource type="PackedScene" uid="uid://4bu8cebhx58r" path="res://closing_platform.tscn" id="11_bxjiw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ajdq7"]
 texture = ExtResource("4_h26xx")
@@ -126,3 +127,9 @@ position = Vector2(-1139, -710)
 
 [node name="Elevator" parent="." instance=ExtResource("10_03h7t")]
 position = Vector2(2811, 816)
+
+[node name="ClosingPlatform" parent="." instance=ExtResource("11_bxjiw")]
+position = Vector2(2882, 475)
+scale = Vector2(2.27812, 2.27812)
+animation_speed = 100.0
+door_travel = 50.0

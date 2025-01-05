@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bo6dh21qei4cl"
-path="res://.godot/imported/Props-01.png-9f331df2f438ad37f9fb66a62416c46d.ctex"
+uid="uid://5q7pbmcpx6ur"
+path="res://.godot/imported/door_001.png-42d69c17975d3246ed3a757d4bff53ba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sidescroller Shooter - Central City/Social/Props-01.png"
-dest_files=["res://.godot/imported/Props-01.png-9f331df2f438ad37f9fb66a62416c46d.ctex"]
+source_file="res://sprites/door_001.png"
+dest_files=["res://.godot/imported/door_001.png-42d69c17975d3246ed3a757d4bff53ba.ctex"]
 
 [params]
 

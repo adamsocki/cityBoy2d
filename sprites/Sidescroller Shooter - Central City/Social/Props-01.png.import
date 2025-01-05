@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://db0v0um0gox0j"
-path="res://.godot/imported/Base Color.png-70fc00e12dd349207469e47833de256f.ctex"
+uid="uid://bo6dh21qei4cl"
+path="res://.godot/imported/Props-01.png-50553a77f28f376211a4589404fe0633.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sidescroller Shooter - Central City/Background/Base Color.png"
-dest_files=["res://.godot/imported/Base Color.png-70fc00e12dd349207469e47833de256f.ctex"]
+source_file="res://sprites/Sidescroller Shooter - Central City/Social/Props-01.png"
+dest_files=["res://.godot/imported/Props-01.png-50553a77f28f376211a4589404fe0633.ctex"]
 
 [params]
 
