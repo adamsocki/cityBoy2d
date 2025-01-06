@@ -6,6 +6,9 @@ extends Node2D
 func _ready():
 	if timeManager:
 		timeManager.init_time_manager()
+	Engine.max_fps = 0
+
+	
 
 func _process(delta):
 	if timeManager:
@@ -16,3 +19,12 @@ func _process(delta):
 		
 	if Input.is_action_just_pressed("pause"):
 		pause_menu.visible = !pause_menu.visible
+		
+		
+	updateFPS()
+
+
+
+	
+func updateFPS():
+	print(Engine.get_frames_per_second())
