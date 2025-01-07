@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=4 uid="uid://igy6qgfovy27"]
+[gd_scene load_steps=21 format=4 uid="uid://igy6qgfovy27"]
 
 [ext_resource type="PackedScene" uid="uid://b4b2l3ltg0i4q" path="res://camera.tscn" id="1_26o5x"]
 [ext_resource type="Script" path="res://game_manager.gd" id="1_vcm3x"]
 [ext_resource type="Texture2D" uid="uid://bh2a3kfwnuv4" path="res://sprites/Sidescroller Shooter - Central City/Background/Frontal Fog.png" id="2_am048"]
+[ext_resource type="PackedScene" uid="uid://6842opxe4kp5" path="res://light_platform.tscn" id="2_r8fn1"]
 [ext_resource type="PackedScene" uid="uid://dmdrl0thpaxpr" path="res://player.tscn" id="3_8busf"]
 [ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://sprites/Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_h26xx"]
 [ext_resource type="Texture2D" uid="uid://dfesm4qvogrlo" path="res://sprites/Sidescroller Shooter - Central City/Assets/Buildings.png" id="4_ldcgg"]
@@ -13,15 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://d4gjeh505imah" path="res://elevator.tscn" id="10_03h7t"]
 [ext_resource type="Texture2D" uid="uid://b0wxb50y4odvb" path="res://sprites/Sidescroller Shooter - Central City/Assets/Props-01.png" id="10_a001p"]
 [ext_resource type="PackedScene" uid="uid://4bu8cebhx58r" path="res://closing_platform.tscn" id="11_bxjiw"]
-
-[sub_resource type="Gradient" id="Gradient_tc004"]
-offsets = PackedFloat32Array(0.616883, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_m0ol6"]
-gradient = SubResource("Gradient_tc004")
-fill = 1
-fill_from = Vector2(0.504587, 0)
-fill_to = Vector2(1, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vbubr"]
 texture = ExtResource("4_ldcgg")
@@ -491,11 +483,9 @@ sources/0 = SubResource("TileSetAtlasSource_6d122")
 script = ExtResource("1_vcm3x")
 timeManager = NodePath("Manager/TimeManager")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(1173.5, 804)
-scale = Vector2(4.20312, 6.53125)
-energy = 4.4
-texture = SubResource("GradientTexture2D_m0ol6")
+[node name="LightPlatform" parent="." instance=ExtResource("2_r8fn1")]
+position = Vector2(1286, 967)
+scale = Vector2(5.07153, 5.07153)
 
 [node name="FrontalFog" type="Sprite2D" parent="."]
 position = Vector2(1504.5, 1107.5)
@@ -547,6 +537,7 @@ tile_map_data = PackedByteArray("AAAHABwAAAAAAAkAAAAHAB0AAAAAAAoAAAAHAB4AAAAAAAs
 tile_set = SubResource("TileSet_3hedu")
 
 [node name="Parallax" parent="." instance=ExtResource("7_g85su")]
+position = Vector2(-105, -12)
 
 [node name="Manager" type="Node" parent="."]
 

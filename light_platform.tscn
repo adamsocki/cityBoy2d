@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://6842opxe4kp5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4rwd1"]
+
+[sub_resource type="Gradient" id="Gradient_tc004"]
+offsets = PackedFloat32Array(0.616883, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qknyq"]
+gradient = SubResource("Gradient_tc004")
+fill = 1
+fill_from = Vector2(0.506881, 0)
+fill_to = Vector2(1, 0.993119)
+
+[node name="LightPlatform" type="Node2D"]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_4rwd1")
+
+[node name="PointLight2D" type="PointLight2D" parent="Area2D"]
+position = Vector2(-3.8147e-06, 0)
+scale = Vector2(0.311437, 0.296875)
+energy = 7.45
+texture = SubResource("GradientTexture2D_qknyq")
