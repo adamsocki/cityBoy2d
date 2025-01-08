@@ -5,14 +5,34 @@ extends Node2D
 
 var is_open = false
 @export var animation_speed: float
+@export var platform_count: int
 @export var door_travel: float
 var initial_top_pos: Vector2
 var initial_bottom_pos: Vector2
 var target_top_pos: Vector2
 var target_bottom_pos: Vector2
 
+var new_platform_nodes: Array[Node2D] = [] 
+
+var platforms = []
+var platform_initial_positions = []
+var platform_target_positions = []
+
+
 func _ready():
 	# Store initial positions
+	var original_platform_node = $Area2D2.duplicate()
+	for i in platform_count:
+		print("icount: ",i)
+		var new_platform_node = original_platform_node.duplicate() as Node2D
+		original_platform_node.get_parent().add_child(new_platform_node)
+		
+		new_platform_node.position.x = 30 * i
+		
+		platforms.append(new_platform_node)
+		platform_initial_positions.append(new_platform_node.position)
+		platform_target_positions.append(new_platform_node.position)
+		
 	initial_top_pos = door_top.position
 	initial_bottom_pos = door_bottom.position
 	target_top_pos = initial_top_pos
