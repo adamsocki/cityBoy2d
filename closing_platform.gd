@@ -1,44 +1,56 @@
 extends Node2D
 
-@onready var door_top: Area2D = $DoorTop
-@onready var door_bottom: Area2D = $DoorBottom
+@onready var original_platform: Node2D = $Area2D2
+@onready var door_top: Node2D = $Area2D2/DoorTop
+@onready var door_bottom: Node2D = $Area2D2/DoorBottom
 
 var is_open = false
-@export var animation_speed: float
-@export var platform_count: int
-@export var door_travel: float
-var initial_top_pos: Vector2
-var initial_bottom_pos: Vector2
-var target_top_pos: Vector2
-var target_bottom_pos: Vector2
+@export var animation_speed: float = 100
+@export var platform_count: int = 7
+@export var door_travel: float = 100
+var time_since_toggle: float = 0.0
+@export var toggle_interval: float = 1.0 
 
-var new_platform_nodes: Array[Node2D] = [] 
-
-var platforms = []
-var platform_initial_positions = []
-var platform_target_positions = []
-
+var platforms: Array[Node2D] = []
+var platform_doors: Array[Dictionary] = []
 
 func _ready():
-	# Store initial positions
-	var original_platform_node = $Area2D2.duplicate()
-	for i in platform_count:
-		print("icount: ",i)
-		var new_platform_node = original_platform_node.duplicate() as Node2D
-		original_platform_node.get_parent().add_child(new_platform_node)
+	# Store the original platform's data
+	var original_door_data = {
+		"platform": original_platform,
+		"top": door_top,
+		"bottom": door_bottom,
+		"initial_top_pos": door_top.position,
+		"initial_bottom_pos": door_bottom.position,
+		"target_top_pos": door_top.position,
+		"target_bottom_pos": door_bottom.position
+	}
+	platform_doors.append(original_door_data)
+	platforms.append(original_platform)
+	
+	# Create duplicates
+	for i in range(platform_count - 1):  # -1 because we already have the original
+		var new_platform = original_platform.duplicate() as Node2D
+		add_child(new_platform)
+		new_platform.position = original_platform.position + Vector2(30 * (i + 1), 0)
+		platforms.append(new_platform)
 		
-		new_platform_node.position.x = 30 * i
+		# Get door references for the new platform
+		var new_top = new_platform.get_node("DoorTop")
+		var new_bottom = new_platform.get_node("DoorBottom")
 		
-		platforms.append(new_platform_node)
-		platform_initial_positions.append(new_platform_node.position)
-		platform_target_positions.append(new_platform_node.position)
-		
-	initial_top_pos = door_top.position
-	initial_bottom_pos = door_bottom.position
-	target_top_pos = initial_top_pos
-	target_bottom_pos = initial_bottom_pos
+		# Store the new platform's door data
+		var new_door_data = {
+			"platform": new_platform,
+			"top": new_top,
+			"bottom": new_bottom,
+			"initial_top_pos": new_top.position,
+			"initial_bottom_pos": new_bottom.position,
+			"target_top_pos": new_top.position,
+			"target_bottom_pos": new_bottom.position
+		}
+		platform_doors.append(new_door_data)
 
-# Call this to toggle the door state
 func toggle_door():
 	if is_open:
 		close_door()
@@ -47,20 +59,31 @@ func toggle_door():
 
 func open_door():
 	is_open = true
-	# Set target positions for opening
-	target_top_pos = initial_top_pos + Vector2(0, -door_travel)
-	target_bottom_pos = initial_bottom_pos + Vector2(0, door_travel)
+	for door_data in platform_doors:
+		door_data.target_top_pos = door_data.initial_top_pos + Vector2(0, -door_travel)
+		door_data.target_bottom_pos = door_data.initial_bottom_pos + Vector2(0, door_travel)
 
 func close_door():
 	is_open = false
-	# Set target positions for closing
-	target_top_pos = initial_top_pos
-	target_bottom_pos = initial_bottom_pos
+	for door_data in platform_doors:
+		door_data.target_top_pos = door_data.initial_top_pos
+		door_data.target_bottom_pos = door_data.initial_bottom_pos
 
 func _process(delta):
-	if Input.is_action_just_pressed("space"):
+	time_since_toggle += delta
+	
+	if time_since_toggle >= toggle_interval:
 		toggle_door()
-
-	# Smoothly move door parts toward their target positions
-	door_top.position = door_top.position.lerp(target_top_pos, animation_speed * delta / door_travel)
-	door_bottom.position = door_bottom.position.lerp(target_bottom_pos, animation_speed * delta / door_travel)
+		time_since_toggle = 0
+	
+	# Update positions for all platforms
+	for door_data in platform_doors:
+		var top = door_data["top"]
+		var bottom = door_data["bottom"]
+		
+		# Use a fixed lerp factor
+		var lerp_factor = clamp(animation_speed * delta, 0, 1)
+		
+		# Update positions
+		top.position = top.position.lerp(door_data.target_top_pos, lerp_factor)
+		bottom.position = bottom.position.lerp(door_data.target_bottom_pos, lerp_factor)

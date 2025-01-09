@@ -546,7 +546,6 @@ tile_set = SubResource("TileSet_3hedu")
 position = Vector2(-105, -12)
 
 [node name="ClosingPlatform" parent="levelNode" instance=ExtResource("11_bxjiw")]
-position = Vector2(2882, 475)
+position = Vector2(2861, 334)
 scale = Vector2(2.27812, 2.27812)
-animation_speed = 100.0
-door_travel = 50.0
+toggle_interval = 2.0
