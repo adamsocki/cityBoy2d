@@ -30,36 +30,38 @@ var current_state = PlayerState.IDLE
 
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var ground_ray := $GroundRay
+
+var current_direction: float = 0
 	
 
 
 func _physics_process(delta):
+	
 	var input_dir = Input.get_action_strength("right") - Input.get_action_strength("left")
-
+	
+	if input_dir != current_direction:
+		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+	
 	if Input.is_action_just_pressed("jump"):
 		velocity.y = JUMP_VELOCITY / 4
 		isJumping = true
 		prevFrameOnFloor = true
-#	print("v.y", velocity.y)
-	print("on floor ? ", is_on_floor())
 
 	if (is_on_floor() or _is_close_to_ground()):
-		#if isJumping:
-#		print("is on floor")
 		isJumping = false
 	else:
 		velocity.y += GRAVITY * delta
-		#print
 
 	if input_dir != 0:
 		velocity.x = move_toward(velocity.x, input_dir * max_speed, ACCELERATION * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 	move_and_slide()
-	print("motion mode:, ", motion_mode)
-	
-	print("is jump?: ", isJumping)
+	#print("motion mode:, ", motion_mode)
+	#print("is jump?: ", isJumping)
 	update_animation_state()
+	
+	current_direction = input_dir
 
 
 func drop():
@@ -71,7 +73,6 @@ func drop():
 func jump():
 	velocity.y = -jump_accel
 	isJumping = true
-
 
 func update_animation_state():
 	if velocity.x != 0:
@@ -85,23 +86,12 @@ func update_animation_state():
 			new_state = PlayerState.WALK
 		else:
 			new_state = PlayerState.IDLE
-	#else:
-		## Check if we're moving up or down
-		#if velocity.y < 0:
-			#new_state = PlayerState.JUMP_UP
-		#else:
-			#new_state = PlayerState.JUMP_DOWN
 	if isJumping:
 		if velocity.y < 0:
-		#	print("PlayerState.JUMP_UP")
 			new_state = PlayerState.JUMP_UP
 		if velocity.y > 0:
-		#	print("PlayerState.JUMP_DOWN")
 			new_state = PlayerState.JUMP_DOWN
 	
-	#print ("newState: ", new_state)
-	#print ("current_state: ", current_state)
-	# Only change animation if state changed
 	if new_state != current_state:
 		current_state = new_state
 		match current_state:
@@ -113,22 +103,15 @@ func update_animation_state():
 				_animated_sprite.play("jump_up")
 			PlayerState.JUMP_DOWN:
 				_animated_sprite.play("jump_down")
-				
-	
 
 func is_grounded() -> bool:
-	# Combine both checks for more reliable ground detection
 	return is_on_floor() or _is_close_to_ground()
 
 func _is_close_to_ground() -> bool:
 	if ground_ray.is_colliding():
-		print("ground Ray. collission: ", ground_ray.get_collider())
-		print("ground ray. distance, ", ground_ray.target_position)
 		var distance_to_ground = ground_ray.get_collision_point().y - ground_ray.global_position.y
-		#print ("GR.GP.y: ", ground_ray.global_position.y)
 		return abs(distance_to_ground) < 14.0
 	return false
-
 
 func _ready():
 	set_slide_on_ceiling_enabled(false)
@@ -138,7 +121,6 @@ func _ready():
 	coyoteTimer = Timer.new()
 	coyoteTimer.wait_time = COYOTE_TIME
 	add_child(coyoteTimer)
-	
 
 func _process(delta):
 	pass

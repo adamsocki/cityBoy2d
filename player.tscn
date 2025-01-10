@@ -154,6 +154,7 @@ scale = Vector2(0.2401, 0.2401)
 target_position = Vector2(0, 15)
 
 [node name="Label_Player" type="Label" parent="."]
+visible = false
 offset_left = -219.0
 offset_top = -140.0
 offset_right = 233.0

@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://d4gjeh505imah"]
+[gd_scene load_steps=5 format=3 uid="uid://d4gjeh505imah"]
 
 [ext_resource type="Script" path="res://elevator.gd" id="1_d8338"]
 [ext_resource type="Texture2D" uid="uid://dpob1g1ur042n" path="res://backgrounds/sprites/elevator001.png" id="1_t4b0g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jawea"]
 size = Vector2(32, 54)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2xah"]
+size = Vector2(32, 4)
 
 [node name="Elevator" type="Area2D"]
 script = ExtResource("1_d8338")
@@ -26,4 +29,22 @@ texture = ExtResource("1_t4b0g")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="PositionPoint01"]
 shape = SubResource("RectangleShape2D_jawea")
 
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -175.0
+offset_top = -111.0
+offset_right = 202.0
+offset_bottom = -42.0
+theme_override_colors/font_color = Color(0.992157, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "Press E to Enter"
+
+[node name="Node" type="StaticBody2D" parent="."]
+position = Vector2(0, 29)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node"]
+shape = SubResource("RectangleShape2D_b2xah")
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -5,6 +5,8 @@ var end_position_node: Node2D
 var is_moving := false
 var initial_y: float
 
+var player_overlap: bool = false
+
 @export var vertical_position_01: float:
 	set(value):
 		vertical_position_01 = value
@@ -37,6 +39,12 @@ func _on_body_entered(body):
 		pass
 	else:
 		if body.name == "Player" and !is_moving:
+			$Label.visible = true
+			player_overlap = true
+
+func _process(delta):
+	if player_overlap:
+		if Input.is_action_just_pressed("e_key"):
 			move_elevator()
 
 func move_elevator():
@@ -58,3 +66,9 @@ func move_elevator():
 
 func _on_tween_finished():
 	is_moving = false
+
+
+func _on_body_exited(body):
+	if body.name == "Player" and !is_moving:
+		$Label.visible = false
+		player_overlap = false

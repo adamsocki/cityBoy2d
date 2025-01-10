@@ -11,7 +11,6 @@ script = ExtResource("1_iuayr")
 animation_speed = 10.0
 
 [node name="Area2D2" type="Node2D" parent="."]
-position = Vector2(30, 0)
 
 [node name="DoorTop" type="Area2D" parent="Area2D2"]
 position = Vector2(0, -3)
@@ -36,36 +35,6 @@ rotation = 3.14159
 shape = SubResource("RectangleShape2D_tpnx4")
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D2/DoorBottom"]
-position = Vector2(0, 1)
-scale = Vector2(0.932, 1)
-texture = ExtResource("2_8arie")
-region_rect = Rect2(0, 63.2528, 30.6604, 32.7472)
-
-[node name="Area2D" type="Node2D" parent="."]
-
-[node name="DoorTop" type="Area2D" parent="Area2D"]
-position = Vector2(0, -3)
-
-[node name="Sprite2D2" type="Sprite2D" parent="Area2D/DoorTop"]
-position = Vector2(9.59233e-14, -5.5)
-rotation = -3.14159
-scale = Vector2(0.932, 1)
-texture = ExtResource("2_8arie")
-region_rect = Rect2(0, 63.2528, 30.6604, 32.7472)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D/DoorTop"]
-position = Vector2(0, -5.5)
-rotation = -3.14159
-shape = SubResource("RectangleShape2D_tpnx4")
-
-[node name="DoorBottom" type="Area2D" parent="Area2D"]
-position = Vector2(0, 8)
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D/DoorBottom"]
-rotation = 3.14159
-shape = SubResource("RectangleShape2D_tpnx4")
-
-[node name="Sprite2D" type="Sprite2D" parent="Area2D/DoorBottom"]
 position = Vector2(0, 1)
 scale = Vector2(0.932, 1)
 texture = ExtResource("2_8arie")
