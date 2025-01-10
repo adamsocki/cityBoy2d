@@ -510,10 +510,17 @@ position = Vector2(1504.5, 1107.5)
 scale = Vector2(418.938, 10.8681)
 texture = ExtResource("2_am048")
 
-[node name="Elevator" parent="levelNode" instance=ExtResource("10_03h7t")]
-position = Vector2(1846, 888)
-vertical_position_01 = -300.0
+[node name="Elevator_01" parent="levelNode" node_paths=PackedStringArray("end_node") instance=ExtResource("10_03h7t")]
+position = Vector2(1832, 892)
+vertical_position_01 = -246.194
 animation_duration = 3.85
+elevator_platform = NodePath(".")
+end_node = NodePath("../Elevator_01_endPoint")
+transition_type = 5
+ease_type = 2
+
+[node name="Elevator_01_endPoint" type="Node2D" parent="levelNode"]
+position = Vector2(1778, 423)
 
 [node name="TileMap_Building_layer" type="TileMapLayer" parent="levelNode"]
 position = Vector2(842.408, 558.369)

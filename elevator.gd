@@ -1,3 +1,4 @@
+@tool
 extends Area2D
 
 var end_position_node: Node2D
@@ -13,12 +14,17 @@ var initial_y: float
 
 @export var animation_duration: float = 1.0  # Duration in seconds
 @export var elevator_platform: NodePath  # Reference to the platform node
+@export var end_node: Node2D
 @onready var platform: Node2D = $PositionPoint01
+
+@export_enum("Linear", "Sine", "Quint", "Quart", "Quad", "Expo", "Elastic", "Cubic", "Circ", "Bounce", "Back") var transition_type: int = 1
+@export_enum("EASE_IN", "EASE_OUT", "EASE_IN_OUT", "EASE_OUT_IN") var ease_type: int = 0
+
 
 func _ready():
 	# Get the node references
 	end_position_node = platform
-	platform = get_node(elevator_platform)
+	#platform = get_node(elevator_platform)
 	initial_y = self.position.y
 	
 	if Engine.is_editor_hint():
@@ -43,9 +49,9 @@ func move_elevator():
 	tween.tween_property(
 		self,  # Node to animate
 		"position:y",  # Property to animate
-		initial_y + vertical_position_01,  # Initial Y + distance to move
+		end_node.position.y,  # Initial Y + distance to move
 		animation_duration  # Duration
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	).set_trans(transition_type).set_ease(ease_type)
 	
 	# Connect to the finished signal
 	tween.finished.connect(_on_tween_finished)
