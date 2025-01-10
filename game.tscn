@@ -511,7 +511,8 @@ scale = Vector2(418.938, 10.8681)
 texture = ExtResource("2_am048")
 
 [node name="Elevator" parent="levelNode" instance=ExtResource("10_03h7t")]
-position = Vector2(2811, 816)
+position = Vector2(2804, 813)
+vertical_position_01 = -478.34
 
 [node name="TileMap_Building_layer" type="TileMapLayer" parent="levelNode"]
 position = Vector2(842.408, 558.369)
