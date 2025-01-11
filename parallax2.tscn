@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://260lu5mraii4"]
+
+[ext_resource type="Shader" path="res://parallax2.gdshader" id="1_hhjj4"]
+[ext_resource type="Texture2D" uid="uid://wdf0gkaaoq0n" path="res://backgrounds/free-city-backgrounds-pixel-art/city 2/4_bw.png" id="1_xxg5x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2kvbc"]
+shader = ExtResource("1_hhjj4")
+shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/color_speed = 1.0
+shader_parameter/color_intensity = 0.5
+shader_parameter/color_offset = 0.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qxev8"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 0.1
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xxg5x")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="Parallax2" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ParallaxBackground/ParallaxLayer"]
+material = SubResource("ShaderMaterial_2kvbc")
+position = Vector2(1469, 909)
+scale = Vector2(4.95679, 4.95679)
+sprite_frames = SubResource("SpriteFrames_qxev8")
+animation = &"new_animation"

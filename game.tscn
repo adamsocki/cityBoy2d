@@ -526,6 +526,7 @@ tile_set = SubResource("TileSet_e0015")
 
 [node name="Elevator_01" parent="levelNode/Elevator" node_paths=PackedStringArray("end_node") instance=ExtResource("10_03h7t")]
 position = Vector2(2781, 818)
+floor_count = 1
 vertical_position_01 = -246.194
 animation_duration = 3.85
 elevator_platform = NodePath(".")

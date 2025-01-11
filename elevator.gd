@@ -5,6 +5,9 @@ var end_position_node: Node2D
 var is_moving := false
 var initial_y: float
 
+@export var floor_count: int = 1
+var current_floor: int = 0
+
 var player_overlap: bool = false
 
 @export var vertical_position_01: float:
