@@ -5,7 +5,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2kvbc"]
 shader = ExtResource("1_hhjj4")
-shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/num_colors = 3
+shader_parameter/shift_colors = PackedColorArray(0, 0.207843, 0.454902, 1, 0.294118, 0.286275, 0.286275, 1)
 shader_parameter/color_speed = 1.0
 shader_parameter/color_intensity = 0.5
 shader_parameter/color_offset = 0.0
