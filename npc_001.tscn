@@ -1,0 +1,100 @@
+[gd_scene load_steps=14 format=3 uid="uid://b7up8f3o43hdv"]
+
+[ext_resource type="Script" path="res://npc_001.gd" id="1_d8aao"]
+[ext_resource type="Texture2D" uid="uid://cm3w8lne524f3" path="res://sprites/FreeNinja/YellowNinja/yellowNinja - idle.png" id="1_wputf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_miqyh"]
+radius = 25.9422
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xvxes"]
+atlas = ExtResource("1_wputf")
+region = Rect2(48, 60, 25, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igj24"]
+atlas = ExtResource("1_wputf")
+region = Rect2(176, 60, 25, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwjw7"]
+atlas = ExtResource("1_wputf")
+region = Rect2(304, 60, 25, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_csg7j"]
+atlas = ExtResource("1_wputf")
+region = Rect2(432, 60, 25, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjvnn"]
+atlas = ExtResource("1_wputf")
+region = Rect2(560, 60, 25, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejqly"]
+atlas = ExtResource("1_wputf")
+region = Rect2(688, 60, 25, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fv00"]
+atlas = ExtResource("1_wputf")
+region = Rect2(816, 60, 25, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0oh7u"]
+atlas = ExtResource("1_wputf")
+region = Rect2(944, 60, 25, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2rn3i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xvxes")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igj24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwjw7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_csg7j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjvnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ejqly")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fv00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0oh7u")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Theme" id="Theme_7iaid"]
+
+[node name="Npc" type="Area2D"]
+script = ExtResource("1_d8aao")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_miqyh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(1.5, 1.49623)
+sprite_frames = SubResource("SpriteFrames_2rn3i")
+animation = &"idle"
+frame_progress = 0.92838
+
+[node name="Label_Player" type="Label" parent="."]
+visible = false
+offset_left = -219.0
+offset_top = -140.0
+offset_right = 233.0
+offset_bottom = -57.0
+theme = SubResource("Theme_7iaid")
+theme_override_colors/font_color = Color(0.988235, 0.215686, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+text = "Press E to Enter"
+horizontal_alignment = 1
+vertical_alignment = 1
