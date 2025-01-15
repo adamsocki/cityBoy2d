@@ -8,18 +8,14 @@ func _ready():
 		timeManager.init_time_manager()
 	Engine.max_fps = 0
 
-	
 
 func _process(delta):
 	if timeManager:
 		timeManager.update_time_manager(delta)
-		
-		
-		
-		
+
+
 	if Input.is_action_just_pressed("pause"):
 		pause_menu.visible = !pause_menu.visible
-		
 		
 	updateFPS()
 

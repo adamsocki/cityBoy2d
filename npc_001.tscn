@@ -1,7 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://b7up8f3o43hdv"]
+[gd_scene load_steps=28 format=3 uid="uid://b7up8f3o43hdv"]
 
 [ext_resource type="Script" path="res://npc_001.gd" id="1_d8aao"]
 [ext_resource type="Texture2D" uid="uid://cm3w8lne524f3" path="res://sprites/FreeNinja/YellowNinja/yellowNinja - idle.png" id="1_wputf"]
+[ext_resource type="Script" path="res://Recipies/BumptingEnemy2D.gd" id="2_35low"]
+[ext_resource type="Texture2D" uid="uid://dpq32ki2meqmf" path="res://sprites/FreeNinja/YellowNinja/yellowNinja - walk.png" id="4_jqtbq"]
+[ext_resource type="Script" path="res://Recipies/InteractiveArea2D.gd" id="5_4f524"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_miqyh"]
 radius = 25.9422
@@ -38,6 +41,46 @@ region = Rect2(816, 60, 25, 36)
 atlas = ExtResource("1_wputf")
 region = Rect2(944, 60, 25, 36)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4i8x1"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(48, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mtko8"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(176, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6qkb"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(304, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_govih"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(432, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dj4m2"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(560, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1a3px"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(688, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs5mj"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(816, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hg27x"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(944, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ho000"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(1072, 60, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tk4l5"]
+atlas = ExtResource("4_jqtbq")
+region = Rect2(1200, 60, 28, 36)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_2rn3i"]
 animations = [{
 "frames": [{
@@ -68,24 +111,64 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4i8x1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mtko8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6qkb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_govih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dj4m2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1a3px")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qs5mj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hg27x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ho000")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tk4l5")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
 }]
 
 [sub_resource type="Theme" id="Theme_7iaid"]
 
-[node name="Npc" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_67r30"]
+
+[node name="Npc" type="Node2D"]
 script = ExtResource("1_d8aao")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BumpingEnemy2D" type="CharacterBody2D" parent="."]
+script = ExtResource("2_35low")
+direction = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BumpingEnemy2D"]
 shape = SubResource("CircleShape2D_miqyh")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BumpingEnemy2D"]
 position = Vector2(0, -1)
 scale = Vector2(1.5, 1.49623)
 sprite_frames = SubResource("SpriteFrames_2rn3i")
-animation = &"idle"
-frame_progress = 0.92838
+animation = &"walk"
 
-[node name="Label_Player" type="Label" parent="."]
+[node name="Label_Player" type="Label" parent="BumpingEnemy2D"]
 visible = false
 offset_left = -219.0
 offset_top = -140.0
@@ -98,3 +181,10 @@ theme_override_font_sizes/font_size = 60
 text = "Press E to Enter"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="InteractiveArea2D" type="Area2D" parent="BumpingEnemy2D"]
+script = ExtResource("5_4f524")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BumpingEnemy2D/InteractiveArea2D"]
+position = Vector2(67, 0)
+shape = SubResource("RectangleShape2D_67r30")

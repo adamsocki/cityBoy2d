@@ -1,3 +1,4 @@
+
 extends CharacterBody2D
 
 enum PlayerState {
@@ -17,6 +18,9 @@ enum PlayerState {
 @export var JUMP_VELOCITY: float
 @export var MAX_FALL_SPEED: float
 @export var COYOTE_TIME: float
+
+
+@export_flags_2d_physics var pass_through_layer = 2
 
 #var velocity = Vector2()
 var runDeceleate: bool = false
