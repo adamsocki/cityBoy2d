@@ -1,12 +1,28 @@
 class_name InteractiveArea2D
 extends Area2D
 
+signal interacted
+signal interaction_available
+signal interaction_unavailable
 
-# Called when the node enters the scene tree for the first time.
+@export var interact_input_action = "interact"
+
+
 func _ready():
-	pass # Replace with function body.
+	set_process_unhandled_input(false)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _unhandled_input(event):
+	if event.is_action_pressed(interact_input_action):
+		interacted.emit()
+		get_viewport().set_input_as_handled()
+
+
+func _on_area_entered(area):
+	set_process_unhandled_input(true)
+	interaction_available.emit()
+
+
+func _on_area_exited(area):
+	set_process_unhandled_input(false)
+	interaction_unavailable.emit()

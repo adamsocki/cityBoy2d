@@ -22,4 +22,4 @@ func init_time_manager():
 
 func update_time_manager(delta):
 	game_time += delta
-	print(game_time)
+	#print(game_time)

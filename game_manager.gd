@@ -23,4 +23,5 @@ func _process(delta):
 
 	
 func updateFPS():
-	print(Engine.get_frames_per_second())
+	#print(Engine.get_frames_per_second())
+	pass

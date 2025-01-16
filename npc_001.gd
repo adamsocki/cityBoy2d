@@ -39,3 +39,16 @@ func _physics_process(delta):
 		_animated_sprite.flip_h = false
 	elif body.direction < 0:
 		_animated_sprite.flip_h = true
+
+
+func _on_interactive_area_2d_interacted():
+	print("_on_interactive_area_2d_interacted")
+
+
+func _on_interactive_area_2d_interaction_available():
+	print("_on_interactive_area_2d_interaction_available")
+
+
+
+func _on_interactive_area_2d_interaction_unavailable():
+	print("_on_interactive_area_2d_interaction_unavailable")
