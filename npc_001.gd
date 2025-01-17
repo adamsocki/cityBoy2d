@@ -12,11 +12,13 @@ extends Node2D
 @onready var body = $BumpingEnemy2D
 
 @onready var _animated_sprite = $BumpingEnemy2D/AnimatedSprite2D
+@onready var interactive_area_forward_collision = $BumpingEnemy2D/interactive_area_forward/interactive_area_forward_collision
 
 
 enum STATES{WALK, IDLE}
 
 var state = STATES.WALK
+var previous_direction = 0
 
 func _ready():
 	body.speed = npc_speed
@@ -26,6 +28,7 @@ func _ready():
 	if body.direction > 0:
 		_animated_sprite.flip_h = false
 	elif body.direction < 0:
+		#interactive_area_forward_collision.position.x = -interactive_area_forward_collision.position.x
 		_animated_sprite.flip_h = true
 
 func _physics_process(delta):
@@ -36,9 +39,20 @@ func _physics_process(delta):
 			_animated_sprite.play("walk")
 			
 	if body.direction > 0:
-		_animated_sprite.flip_h = false
+		if previous_direction < 0: 
+			_animated_sprite.flip_h = false
+			interactive_area_forward_collision.position.x = -interactive_area_forward_collision.position.x
+		previous_direction = body.direction
 	elif body.direction < 0:
-		_animated_sprite.flip_h = true
+		if previous_direction > 0: 
+			_animated_sprite.flip_h = true
+			interactive_area_forward_collision.position.x = -interactive_area_forward_collision.position.x
+		previous_direction = body.direction
+		
+		
+
+
+
 
 
 func _on_interactive_area_2d_interacted():

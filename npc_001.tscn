@@ -182,15 +182,17 @@ text = "Press E to Enter"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InteractiveArea2D" type="Area2D" parent="BumpingEnemy2D"]
+[node name="interactive_area_forward" type="Area2D" parent="BumpingEnemy2D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("5_4f524")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="BumpingEnemy2D/InteractiveArea2D"]
+[node name="interactive_area_forward_collision" type="CollisionShape2D" parent="BumpingEnemy2D/interactive_area_forward"]
 position = Vector2(67, 0)
 shape = SubResource("RectangleShape2D_67r30")
 
-[connection signal="area_entered" from="BumpingEnemy2D/InteractiveArea2D" to="BumpingEnemy2D/InteractiveArea2D" method="_on_area_entered"]
-[connection signal="area_exited" from="BumpingEnemy2D/InteractiveArea2D" to="BumpingEnemy2D/InteractiveArea2D" method="_on_area_exited"]
-[connection signal="interacted" from="BumpingEnemy2D/InteractiveArea2D" to="." method="_on_interactive_area_2d_interacted"]
-[connection signal="interaction_available" from="BumpingEnemy2D/InteractiveArea2D" to="." method="_on_interactive_area_2d_interaction_available"]
-[connection signal="interaction_unavailable" from="BumpingEnemy2D/InteractiveArea2D" to="." method="_on_interactive_area_2d_interaction_unavailable"]
+[connection signal="area_entered" from="BumpingEnemy2D/interactive_area_forward" to="BumpingEnemy2D/interactive_area_forward" method="_on_area_entered"]
+[connection signal="area_exited" from="BumpingEnemy2D/interactive_area_forward" to="BumpingEnemy2D/interactive_area_forward" method="_on_area_exited"]
+[connection signal="interacted" from="BumpingEnemy2D/interactive_area_forward" to="." method="_on_interactive_area_2d_interacted"]
+[connection signal="interaction_available" from="BumpingEnemy2D/interactive_area_forward" to="." method="_on_interactive_area_2d_interaction_available"]
+[connection signal="interaction_unavailable" from="BumpingEnemy2D/interactive_area_forward" to="." method="_on_interactive_area_2d_interaction_unavailable"]

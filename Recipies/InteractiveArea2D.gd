@@ -20,9 +20,16 @@ func _unhandled_input(event):
 
 func _on_area_entered(area):
 	set_process_unhandled_input(true)
+	print(area.name)
+	
+	var p = area.get_parent()
+	print(p.name)
 	interaction_available.emit()
 
 
 func _on_area_exited(area):
 	set_process_unhandled_input(false)
+	print(area.name)
+	var p = area.get_parent()
+	print(p.name)
 	interaction_unavailable.emit()

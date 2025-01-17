@@ -1502,4 +1502,5 @@ toggle_interval = 2.0
 
 [node name="Npc" parent="levelNode" instance=ExtResource("19_rto8k")]
 position = Vector2(1441, 946)
-npc_speed = 80.0
+initial_direction = 1
+npc_speed = 20.0
