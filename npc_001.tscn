@@ -1,10 +1,10 @@
 [gd_scene load_steps=28 format=3 uid="uid://b7up8f3o43hdv"]
 
-[ext_resource type="Script" path="res://npc_001.gd" id="1_d8aao"]
+[ext_resource type="Script" uid="uid://cmn81d0dxecok" path="res://npc_001.gd" id="1_d8aao"]
 [ext_resource type="Texture2D" uid="uid://cm3w8lne524f3" path="res://sprites/FreeNinja/YellowNinja/yellowNinja - idle.png" id="1_wputf"]
-[ext_resource type="Script" path="res://Recipies/BumptingEnemy2D.gd" id="2_35low"]
+[ext_resource type="Script" uid="uid://gfc17d71lj5m" path="res://Recipies/BumptingEnemy2D.gd" id="2_35low"]
 [ext_resource type="Texture2D" uid="uid://dpq32ki2meqmf" path="res://sprites/FreeNinja/YellowNinja/yellowNinja - walk.png" id="4_jqtbq"]
-[ext_resource type="Script" path="res://Recipies/InteractiveArea2D.gd" id="5_4f524"]
+[ext_resource type="Script" uid="uid://bhjys2y15yrlu" path="res://Recipies/InteractiveArea2D.gd" id="5_4f524"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_miqyh"]
 radius = 25.9422
@@ -151,6 +151,7 @@ animations = [{
 [sub_resource type="Theme" id="Theme_7iaid"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_67r30"]
+size = Vector2(50, 20)
 
 [node name="Npc" type="Node2D"]
 script = ExtResource("1_d8aao")
@@ -188,7 +189,7 @@ collision_mask = 2
 script = ExtResource("5_4f524")
 
 [node name="interactive_area_forward_collision" type="CollisionShape2D" parent="BumpingEnemy2D/interactive_area_forward"]
-position = Vector2(67, 0)
+position = Vector2(52, 0)
 shape = SubResource("RectangleShape2D_67r30")
 
 [connection signal="area_entered" from="BumpingEnemy2D/interactive_area_forward" to="BumpingEnemy2D/interactive_area_forward" method="_on_area_entered"]

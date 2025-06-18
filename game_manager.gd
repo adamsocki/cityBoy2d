@@ -13,15 +13,12 @@ func _process(delta):
 	if timeManager:
 		timeManager.update_time_manager(delta)
 
-
 	if Input.is_action_just_pressed("pause"):
 		pause_menu.visible = !pause_menu.visible
 		
 	updateFPS()
 
 
-
-	
 func updateFPS():
 	#print(Engine.get_frames_per_second())
 	pass

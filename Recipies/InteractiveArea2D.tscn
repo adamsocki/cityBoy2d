@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://4p2c3ceijtpi"]
 
-[ext_resource type="Script" path="res://Recipies/InteractiveArea2D.gd" id="1_pv6v2"]
+[ext_resource type="Script" uid="uid://bhjys2y15yrlu" path="res://Recipies/InteractiveArea2D.gd" id="1_pv6v2"]
 
 [node name="InteractiveArea2d" type="Area2D"]
 script = ExtResource("1_pv6v2")

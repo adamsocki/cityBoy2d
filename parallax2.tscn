@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://260lu5mraii4"]
 
-[ext_resource type="Shader" path="res://parallax2.gdshader" id="1_hhjj4"]
+[ext_resource type="Shader" uid="uid://b0es80wrd5vhi" path="res://parallax2.gdshader" id="1_hhjj4"]
 [ext_resource type="Texture2D" uid="uid://wdf0gkaaoq0n" path="res://backgrounds/free-city-backgrounds-pixel-art/city 2/4_bw.png" id="1_xxg5x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2kvbc"]

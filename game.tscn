@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=4 uid="uid://igy6qgfovy27"]
 
 [ext_resource type="PackedScene" uid="uid://b4b2l3ltg0i4q" path="res://camera.tscn" id="1_26o5x"]
-[ext_resource type="Script" path="res://game_manager.gd" id="1_vcm3x"]
+[ext_resource type="Script" uid="uid://o47740d46jmd" path="res://game_manager.gd" id="1_vcm3x"]
 [ext_resource type="Texture2D" uid="uid://bh2a3kfwnuv4" path="res://sprites/Sidescroller Shooter - Central City/Background/Frontal Fog.png" id="2_am048"]
 [ext_resource type="PackedScene" uid="uid://6842opxe4kp5" path="res://light_platform.tscn" id="2_r8fn1"]
 [ext_resource type="PackedScene" uid="uid://dmdrl0thpaxpr" path="res://player.tscn" id="3_8busf"]
@@ -1419,6 +1419,7 @@ texture = ExtResource("10_a001p")
 sources/0 = SubResource("TileSetAtlasSource_6d122")
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("timeManager")]
+position = Vector2(0, 1)
 script = ExtResource("1_vcm3x")
 timeManager = NodePath("Manager/TimeManager")
 
