@@ -19,7 +19,7 @@ enum PlayerState {
 @export var MAX_FALL_SPEED: float
 @export var COYOTE_TIME: float
 
-#@
+#@export var jump
 
 
 @export_flags_2d_physics var pass_through_layer = 2
@@ -32,13 +32,15 @@ var isDropping: bool = false
 var coyoteTimer: Timer
 var prevFrameOnFloor: bool = false
 
+var _is_attacking: bool = false
+var _can_start_attack: bool = true
+
 var current_state = PlayerState.IDLE
 
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var ground_ray := $GroundRay
 
-var current_direction: float = 0
-	
+var current_direction: float = 0 
 
 
 func _physics_process(delta):
@@ -51,7 +53,15 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("jump"):
 		velocity.y = JUMP_VELOCITY / 4
 		isJumping = true
+		#current_state = PlayerState.JUMP_UP
 		prevFrameOnFloor = true
+		
+	if Input.is_action_just_pressed("attack"):
+		#current_state = PlayerState.ATTACK
+		if (_can_start_attack):
+			_is_attacking = true
+			_can_start_attack = false
+			#_animated_sprite.
 
 	if (is_on_floor() or _is_close_to_ground()):
 		isJumping = false
@@ -88,7 +98,10 @@ func update_animation_state():
 	var new_state = current_state
 	
 	if is_grounded() or _is_close_to_ground():
-		if abs(velocity.x) > 0:
+		if _is_attacking:
+			new_state = PlayerState.ATTACK
+			
+		elif abs(velocity.x) > 0:
 			new_state = PlayerState.WALK
 		else:
 			new_state = PlayerState.IDLE
@@ -97,6 +110,10 @@ func update_animation_state():
 			new_state = PlayerState.JUMP_UP
 		if velocity.y > 0:
 			new_state = PlayerState.JUMP_DOWN
+		if _is_attacking:
+			new_state = PlayerState.ATTACK
+			
+	#if PlayerState.ATTACK
 	
 	if new_state != current_state:
 		current_state = new_state
@@ -109,6 +126,8 @@ func update_animation_state():
 				_animated_sprite.play("jump_up")
 			PlayerState.JUMP_DOWN:
 				_animated_sprite.play("jump_down")
+			PlayerState.ATTACK:
+				_animated_sprite.play("attack_1")
 
 func is_grounded() -> bool:
 	return is_on_floor() or _is_close_to_ground()
@@ -119,9 +138,24 @@ func _is_close_to_ground() -> bool:
 		return abs(distance_to_ground) < 14.0
 	return false
 
+func _on_animation_finished():
+	match _animated_sprite.animation:
+		"attack_1":
+			_animated_sprite.play("idle") 
+			_is_attacking = false
+			_can_start_attack = true;
+
+func _on_frame_change():
+	if _animated_sprite.animation == "attack_1":
+		if _animated_sprite.frame >= 2:
+			_can_start_attack = true;
+
 func _ready():
 	set_slide_on_ceiling_enabled(false)
 	set_floor_stop_on_slope_enabled(false)
+	
+	_animated_sprite.animation_finished.connect(_on_animation_finished)
+	_animated_sprite.frame_changed.connect(_on_frame_change)
 	floor_snap_length = 10
 	_animated_sprite.play("idle")
 	coyoteTimer = Timer.new()
