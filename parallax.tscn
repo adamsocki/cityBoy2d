@@ -74,7 +74,7 @@ sources/0 = SubResource("TileSetAtlasSource_g72vk")
 position = Vector2(-15, -13)
 motion_scale = Vector2(0, 0)
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+[node name="SkyColor" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 scale = Vector2(6.71316, 9.01111)
 texture = ExtResource("1_wg8n8")
 centered = false

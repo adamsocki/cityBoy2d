@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var pause_menu := $Camera/PauseMenu
 @export var timeManager: TimeManager
+@export var is_developer_mode: bool = false
 
 func _ready():
 	if timeManager:

@@ -1,10 +1,11 @@
-[gd_scene load_steps=30 format=4 uid="uid://igy6qgfovy27"]
+[gd_scene load_steps=31 format=4 uid="uid://igy6qgfovy27"]
 
 [ext_resource type="PackedScene" uid="uid://b4b2l3ltg0i4q" path="res://camera.tscn" id="1_26o5x"]
 [ext_resource type="Script" uid="uid://o47740d46jmd" path="res://game_manager.gd" id="1_vcm3x"]
 [ext_resource type="Texture2D" uid="uid://bh2a3kfwnuv4" path="res://sprites/Sidescroller Shooter - Central City/Background/Frontal Fog.png" id="2_am048"]
 [ext_resource type="PackedScene" uid="uid://6842opxe4kp5" path="res://light_platform.tscn" id="2_r8fn1"]
 [ext_resource type="PackedScene" uid="uid://dmdrl0thpaxpr" path="res://player.tscn" id="3_8busf"]
+[ext_resource type="Script" uid="uid://bmmeo5i57flne" path="res://sky_color_manager.gd" id="3_e36ub"]
 [ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://sprites/Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_h26xx"]
 [ext_resource type="Texture2D" uid="uid://dfesm4qvogrlo" path="res://sprites/Sidescroller Shooter - Central City/Assets/Buildings.png" id="4_ldcgg"]
 [ext_resource type="PackedScene" uid="uid://dndoxlvc5kt3i" path="res://PauseMenu.tscn" id="5_a8nwd"]
@@ -1426,6 +1427,20 @@ timeManager = NodePath("Manager/TimeManager")
 [node name="Manager" type="Node" parent="."]
 
 [node name="TimeManager" parent="Manager" instance=ExtResource("9_cud6r")]
+time_period_duration = 2.0
+
+[node name="SkyColorManager" type="Node" parent="Manager/TimeManager" node_paths=PackedStringArray("parallax_scene", "timeManager")]
+script = ExtResource("3_e36ub")
+parallax_scene = NodePath("../../../levelNode/Parallax")
+timeManager = NodePath("..")
+sky_colors_per_time_of_day = {
+0: Color(0.0237418, 0.0535995, 0.121732, 1),
+1: Color(1, 0.95, 0.8, 1),
+2: Color(0.0778806, 0.448086, 0.822491, 1),
+3: Color(1, 0.9, 0.7, 1),
+4: Color(1, 0.6, 0.4, 1),
+5: Color(0.638511, 0, 0.268442, 1)
+}
 
 [node name="Camera" parent="." instance=ExtResource("1_26o5x")]
 target_path = NodePath("../levelNode/Player")
@@ -1505,3 +1520,7 @@ toggle_interval = 2.0
 position = Vector2(1441, 946)
 initial_direction = 1
 npc_speed = 20.0
+
+[node name="Node" type="Node" parent="."]
+
+[connection signal="time_of_day_changed" from="Manager/TimeManager" to="Manager/TimeManager/SkyColorManager" method="_on_time_manager_time_of_day_changed"]

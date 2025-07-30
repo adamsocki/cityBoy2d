@@ -1,0 +1,46 @@
+extends Node
+
+@export var parallax_scene: Node2D
+@export var sky_transition_duration: float = 0.1
+@export var timeManager: TimeManager
+
+var sky_sprite: Sprite2D
+var tween: Tween
+
+@export var sky_colors_per_time_of_day = {
+	TimeManager.TimeOfDay.MORNING: Color.WHITE,
+	TimeManager.TimeOfDay.MIDMORNING: Color(1.0, 0.95, 0.8),     # Warm white
+	TimeManager.TimeOfDay.NOON: Color(0.9, 0.95, 1.0),           # Bright blue-white
+	TimeManager.TimeOfDay.AFTERNOON: Color(1.0, 0.9, 0.7),       # Golden
+	TimeManager.TimeOfDay.EVENING: Color(1.0, 0.6, 0.4),         # Orange/pink
+	TimeManager.TimeOfDay.NIGHT: Color(0.3, 0.3, 0.6),           # Dark blue
+}
+
+func init_me():
+	sky_sprite = parallax_scene.get_node("ParallaxBackground/ParallaxLayer/SkyColor")
+	
+func update_color_sky_change_manager(delta):
+	pass
+
+
+
+func _on_time_manager_time_of_day_changed(new_time: TimeManager.TimeOfDay) -> void:
+	print("_on_time_manager_time_of_day_changed in sky color manager")
+	if sky_sprite:
+		print("sky_sprite and timeManager in sky color manager")
+		
+		var time_to_use = new_time
+		var target_color = sky_colors_per_time_of_day[time_to_use]
+		
+		if DeveloperMode.is_dev_mode():
+			time_to_use = DeveloperMode.manual_time_of_day
+			target_color = sky_colors_per_time_of_day[time_to_use]
+		
+		#var target_color = sky_colors_per_time_of_day[time_to_use]
+		
+		# Create smooth color transition
+		if tween:
+			tween.kill()
+		tween = create_tween()
+		tween.tween_property(sky_sprite, "modulate", target_color, sky_transition_duration)
+	pass # Replace with function body.
