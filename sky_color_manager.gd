@@ -32,8 +32,9 @@ func _on_time_manager_time_of_day_changed(new_time: TimeManager.TimeOfDay) -> vo
 		var time_to_use = new_time
 		var target_color = sky_colors_per_time_of_day[time_to_use]
 		
-		if DeveloperMode.is_dev_mode():
-			time_to_use = DeveloperMode.manual_time_of_day
+		var dev_mode = get_tree().get_first_node_in_group("developer_mode")
+		if dev_mode and dev_mode.is_developer_mode and dev_mode.use_manual_colors:
+			time_to_use = dev_mode.manual_time_of_day
 			target_color = sky_colors_per_time_of_day[time_to_use]
 		
 		#var target_color = sky_colors_per_time_of_day[time_to_use]

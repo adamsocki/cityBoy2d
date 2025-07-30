@@ -28,13 +28,23 @@ func init_time_manager():
 
 
 func update_time_manager(delta):
-	if DeveloperMode.is_dev_mode() and DeveloperMode.pause_time_progression:
+	var dev_mode = get_tree().get_first_node_in_group("developer_mode")
+	if dev_mode and dev_mode.is_developer_mode and dev_mode.pause_time_progression:
 		return
 		
 	game_time += delta
 	
 	var current_period = int(game_time / time_period_duration) % TimeOfDay.size()
 	if time_of_day != current_period:
+		var old_time = time_of_day
 		time_of_day = current_period
-		print("Time of day changed to: ", TimeOfDay.keys()[time_of_day])
+		var period_progress = (fmod(game_time, time_period_duration) / time_period_duration) * 100.0
+		
+		print("=== TIME OF DAY CHANGE ===")
+		print("From: ", TimeOfDay.keys()[old_time], " -> To: ", TimeOfDay.keys()[time_of_day])
+		print("Game Time: %.2f seconds" % game_time)
+		print("Period Duration: %.1f seconds" % time_period_duration)
+		print("Period Progress: %.1f%%" % period_progress)
+		print("========================")
+		
 		time_of_day_changed.emit(time_of_day)
