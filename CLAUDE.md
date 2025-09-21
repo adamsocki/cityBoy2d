@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Godot 4.4 2D platformer game called "cityBoy2d" featuring a cyberpunk/urban aesthetic. The game includes a player character that can move, jump, and interact with NPCs in a city environment with parallax backgrounds.
+This is a Godot 4.5 2D platformer game called "cityBoy2d" featuring a cyberpunk/urban aesthetic. The game includes a player character that can move, jump, and interact with NPCs in a city environment with parallax backgrounds. The project uses a hybrid GDScript and C# architecture.
 
 ## Development Commands
 
@@ -14,6 +14,7 @@ This is a Godot 4.4 2D platformer game called "cityBoy2d" featuring a cyberpunk/
 
 **Project Structure:**
 - No build system - Godot handles compilation internally
+- Hybrid GDScript/C# project with .NET support
 - No separate test framework identified in the codebase
 - Assets are automatically imported by Godot Engine
 
@@ -44,6 +45,22 @@ This is a Godot 4.4 2D platformer game called "cityBoy2d" featuring a cyberpunk/
 - Interaction system via InteractiveArea2D
 - Direction-based sprite flipping and collision adjustment
 
+**Level Management (`LevelManager.cs`)**
+- C# component for managing scene visibility and transitions
+- Controls Scene switching between different level nodes
+- Exported properties for direct scene assignment in editor
+
+**Sky Color Management (`sky_color_manager.gd`)**
+- Manages dynamic sky color transitions based on time of day
+- Smooth color interpolation with configurable transition duration
+- Integrates with time management and developer mode systems
+
+**Developer Mode (`developer_mode.gd`)**
+- Autoload singleton for development tools and debugging
+- Runtime controls for time progression, sky colors, and time of day
+- On-screen debug UI with real-time game state information
+- Hotkey system (F12 for dev mode, T/P/C/1-6 for various controls)
+
 ### Reusable Components (`Recipies/` folder)
 
 **BasicMovingCharacter2D**
@@ -55,22 +72,36 @@ This is a Godot 4.4 2D platformer game called "cityBoy2d" featuring a cyberpunk/
 - Emits signals for interaction availability and completion
 - Input handling for interaction actions
 
+**BumptingEnemy2D**
+- Enemy character component with collision-based behavior
+- Part of the reusable character system architecture
+
 ### Scene Structure
 
 - `game.tscn` - Main game scene
+- `level_node1.tscn` - Level scene managed by LevelManager
 - `player.tscn` - Player character prefab
 - `npc_001.tscn` - NPC prefab
 - `MainMenu.tscn` / `PauseMenu.tscn` - UI scenes
-- Various platform and environment prefabs (elevator, closing_platform, etc.)
+- `parallax.tscn` / `parallax2.tscn` - Parallax background scenes
+- `LevelManager.tscn` - C# level management system
+- Various platform and environment prefabs (elevator, closing_platform, light_platform, etc.)
 
 ### Input Configuration
 
 **Defined input actions:**
-- `left` - Left Arrow / A key movement
-- `right` - Right Arrow / D key movement  
+- `left` - Left Arrow key movement
+- `right` - Right Arrow / D key movement
 - `jump` / `space` - Spacebar for jumping
 - `pause` - Escape key for pause menu
 - `e_key` - E key for interactions
+
+**Developer Mode Controls:**
+- `F12` - Toggle developer mode on/off
+- `T` - Cycle through time of day (when dev mode active)
+- `P` - Toggle time progression pause (when dev mode active)
+- `C` - Toggle manual/automatic color mode (when dev mode active)
+- `1-6` - Set specific time of day directly (when dev mode active)
 
 ### Art Assets
 
@@ -91,11 +122,15 @@ The project contains extensive pixel art assets organized in folders:
 
 - 2D platformer movement with jump mechanics
 - NPC interaction system
-- Time of day progression
+- Dynamic time of day progression system
+- Sky color transitions based on time of day
+- Developer mode with runtime debugging tools
+- Level management and scene switching
 - Pause functionality
 - Parallax scrolling backgrounds
 - Urban/cyberpunk aesthetic with pixel art
 - Basic UI system
+- Hybrid GDScript/C# architecture
 
 ## Development Notes
 
@@ -103,3 +138,10 @@ The project contains extensive pixel art assets organized in folders:
 - VSync mode set to 2 (adaptive)
 - Uses Forward Plus rendering
 - No FPS limit set (Engine.max_fps = 0)
+- DeveloperMode is set as an autoload singleton
+- C# assembly name: "t2"
+- Godot 4.5 with C# support enabled
+
+## Autoloads
+
+- `DeveloperMode` - Global developer tools and debugging system (`*res://developer_mode.gd`)

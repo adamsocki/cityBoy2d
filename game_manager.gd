@@ -2,14 +2,22 @@ extends Node2D
 
 @onready var pause_menu := $Camera/PauseMenu
 @export var timeManager: TimeManager
+# @onready var levelManager := $Manager/LevelManager
 @export var is_developer_mode: bool = false
 
 var developer_mode: Node
+var levelManager = load("res://LevelManager.cs")
+var levelManagerNode = levelManager.new()
+
 
 func _ready():
 	if timeManager:
 		timeManager.init_time_manager()
 		timeManager.add_to_group("time_manager")
+
+	if levelManager:
+		#add_child(levelManagerNode)
+		levelManagerNode.InitLevelManager()
 	
 	# Create and add developer mode
 	developer_mode = preload("res://developer_mode.gd").new()

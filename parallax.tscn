@@ -1,8 +1,12 @@
-[gd_scene load_steps=8 format=4 uid="uid://btbqqyl5vksp7"]
+[gd_scene load_steps=12 format=4 uid="uid://btbqqyl5vksp7"]
 
+[ext_resource type="Texture2D" uid="uid://bothdreh348cy" path="res://backgrounds/demon_woods/parallax-demon-woods-bg.png" id="1_ji414"]
 [ext_resource type="Texture2D" uid="uid://n5s65xvpqmiy" path="res://backgrounds/city background/night/night sky.png" id="1_wg8n8"]
 [ext_resource type="Texture2D" uid="uid://cmkfbwccx4k17" path="res://backgrounds/Futuristic City Parallax/city1plan.png" id="2_0qlja"]
 [ext_resource type="Texture2D" uid="uid://bnitwpp7aamxy" path="res://backgrounds/Futuristic City Parallax/sun.png" id="2_3tuck"]
+[ext_resource type="Texture2D" uid="uid://bq6qx0taehu6f" path="res://backgrounds/demon_woods/parallax-demon-woods-close-trees.png" id="2_k0f50"]
+[ext_resource type="Texture2D" uid="uid://c8l05i7f2j4i6" path="res://backgrounds/demon_woods/parallax-demon-woods-mid-trees.png" id="2_vnsep"]
+[ext_resource type="Texture2D" uid="uid://d18um0gingtte" path="res://backgrounds/demon_woods/parallax-demon-woods-far-trees.png" id="3_0vyxx"]
 [ext_resource type="Texture2D" uid="uid://ctg6avfkqemlt" path="res://backgrounds/city background/evening/evening buildings front.png" id="3_x4hlf"]
 [ext_resource type="Texture2D" uid="uid://l6ehu5kfhc6c" path="res://sprites/Sidescroller Shooter - Central City/Assets/Tiles.png" id="4_24qt6"]
 
@@ -68,57 +72,99 @@ sources/0 = SubResource("TileSetAtlasSource_g72vk")
 
 [node name="Parallax" type="Node2D"]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="Level2_Parallax" type="ParallaxBackground" parent="."]
+visible = false
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Level2_Parallax"]
 position = Vector2(-15, -13)
 motion_scale = Vector2(0, 0)
 
-[node name="SkyColor" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+[node name="SkyColor" type="Sprite2D" parent="Level2_Parallax/ParallaxLayer"]
+position = Vector2(213, 23.999998)
+scale = Vector2(6.71316, 9.01111)
+texture = ExtResource("1_ji414")
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Level2_Parallax"]
+modulate = Color(1, 1, 1, 0.333333)
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(2400, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level2_Parallax/ParallaxLayer4"]
+position = Vector2(-581.9999, -1377.9999)
+scale = Vector2(9.354127, 13.103684)
+texture = ExtResource("3_0vyxx")
+centered = false
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="Level2_Parallax"]
+motion_mirroring = Vector2(2710.06, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level2_Parallax/ParallaxLayer3"]
+position = Vector2(-116, -386.00003)
+scale = Vector2(7.13186, 7.13186)
+texture = ExtResource("2_vnsep")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="Level2_Parallax"]
+motion_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Level2_Parallax/ParallaxLayer2"]
+position = Vector2(-1.9999695, -34)
+scale = Vector2(4.5772066, 4.577206)
+texture = ExtResource("2_k0f50")
+centered = false
+
+[node name="Level1_Parallax" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Level1_Parallax"]
+position = Vector2(-15, -13)
+motion_scale = Vector2(0, 0)
+
+[node name="SkyColor" type="Sprite2D" parent="Level1_Parallax/ParallaxLayer"]
 scale = Vector2(6.71316, 9.01111)
 texture = ExtResource("1_wg8n8")
 centered = false
 
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="Level1_Parallax"]
 motion_scale = Vector2(0, 0)
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+[node name="Sprite2D" type="Sprite2D" parent="Level1_Parallax/ParallaxLayer2"]
 position = Vector2(871, -623)
 scale = Vector2(2.59444, 2.59444)
 texture = ExtResource("2_3tuck")
 centered = false
 
-[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Level1_Parallax"]
 modulate = Color(1, 1, 1, 0.333333)
 position = Vector2(92.9998, 314)
 scale = Vector2(0.79, 0.79)
 motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(2400, 0)
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
+[node name="Sprite2D" type="Sprite2D" parent="Level1_Parallax/ParallaxLayer4"]
 position = Vector2(-344, -968)
 scale = Vector2(3.833, 5.36944)
 texture = ExtResource("2_0qlja")
 centered = false
 
-[node name="Sprite2D2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
+[node name="Sprite2D2" type="Sprite2D" parent="Level1_Parallax/ParallaxLayer4"]
 position = Vector2(-344, -968)
 scale = Vector2(3.833, 5.36944)
 texture = ExtResource("2_0qlja")
 centered = false
 
-[node name="TileMapLayer" type="TileMapLayer" parent="ParallaxBackground/ParallaxLayer4"]
+[node name="TileMapLayer" type="TileMapLayer" parent="Level1_Parallax/ParallaxLayer4"]
 position = Vector2(0.000309039, -2.53168)
 tile_map_data = PackedByteArray("AAAqAAYAAAAFAAgAAAArAAYAAAAFAAgAAAAsAAYAAAAEAAcAAAAtAAYAAAAFAAcAAAAuAAYAAAAFAAgAAAAvAAYAAAAFAAcAAAAwAAYAAAAFAAgAAAAxAAYAAAAEAAgAAAAyAAYAAAAFAAcAAAAzAAYAAAAFAAgAAAA0AAYAAAAEAAgAAAA1AAYAAAAFAAgAAAA2AAYAAAAFAAcAAAA3AAYAAAAEAAcAAAA4AAYAAAAFAAgAAAA5AAYAAAAEAAcAAAA6AAYAAAAEAAgAAAA7AAYAAAAFAAgAAAA8AAYAAAAEAAgAAAA9AAYAAAAEAAgAAAA+AAYAAAAFAAgAAAA/AAYAAAAFAAcAAABAAAYAAAAEAAcAAABBAAYAAAAEAAcAAABCAAYAAAAFAAcAAABDAAYAAAAEAAgAAABEAAYAAAAFAAcAAABFAAYAAAAFAAgAAABGAAYAAAAFAAcAAAA=")
 tile_set = SubResource("TileSet_ou60d")
 
-[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="Level1_Parallax"]
 visible = false
 position = Vector2(92.9998, 314)
 scale = Vector2(0.866, 0.866)
 motion_mirroring = Vector2(2710.06, 0)
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+[node name="Sprite2D" type="Sprite2D" parent="Level1_Parallax/ParallaxLayer3"]
 position = Vector2(-115, 557)
 scale = Vector2(7.13186, 7.13186)
 texture = ExtResource("3_x4hlf")
