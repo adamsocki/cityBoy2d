@@ -1,8 +1,7 @@
-extends Node
+extends CanvasLayer
 
 @export var parallax_scene: Node2D
 @export var sky_transition_duration: float = 0.1
-@export var timeManager: TimeManager
 
 var sky_sprite: Sprite2D
 var tween: Tween
@@ -16,8 +15,20 @@ var tween: Tween
 	TimeManager.TimeOfDay.NIGHT: Color(0.3, 0.3, 0.6),           # Dark blue
 }
 
+func _ready():
+	if parallax_scene:
+		sky_sprite = parallax_scene.get_node("Level1_Parallax/ParallaxLayer/SkyColor")
+	else:
+		print("Error: parallax_scene is null in sky_color_manager")
+
+	# Connect to the TimeManager singleton
+	if TimeManager:
+		TimeManager.time_of_day_changed.connect(_on_time_manager_time_of_day_changed)
+
 func init_me():
-	sky_sprite = parallax_scene.get_node("ParallaxBackground/ParallaxLayer/SkyColor")
+	# Legacy function kept for compatibility but now calls _ready functionality
+	if not sky_sprite and parallax_scene:
+		sky_sprite = parallax_scene.get_node("Level1_Parallax/ParallaxLayer/SkyColor")
 	
 func update_color_sky_change_manager(delta):
 	pass

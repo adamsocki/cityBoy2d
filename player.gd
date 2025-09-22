@@ -120,6 +120,7 @@ func _is_close_to_ground() -> bool:
 	return false
 
 func _ready():
+	add_to_group("player")
 	set_slide_on_ceiling_enabled(false)
 	set_floor_stop_on_slope_enabled(false)
 	floor_snap_length = 10

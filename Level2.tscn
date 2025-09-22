@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://dq7j7pi1xaq2x"]
+
+[ext_resource type="PackedScene" uid="uid://bsqupu5vgtprb" path="res://BaseLevel.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://ce8bw4ljjpba" path="res://LevelTransition.tscn" id="2_transition"]
+[ext_resource type="PackedScene" path="res://SpawnPoint.tscn" id="3_spawn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
+size = Vector2(200, 32)
+
+[node name="Level2" instance=ExtResource("1_base")]
+
+[node name="Player" parent="." index="1"]
+position = Vector2(447, 465)
+GRAVITY = 2000.0
+ACCELERATION = 300.0
+max_speed = 200.0
+FRICTION = 5700.0
+jump_accel = 450.0
+drop_accel = 1000.0
+JUMP_VELOCITY = -2000.0
+COYOTE_TIME = 0.08
+
+[node name="Parallax2D" parent="." index="2"]
+position = Vector2(86, -5)
+
+[node name="LevelTransition" parent="LevelContent" index="0" instance=ExtResource("2_transition")]
+position = Vector2(1263, 346)
+next_level_scene = "res://Level1.tscn"
+spawn_point = "from_level2"
+
+[node name="SimplePlatform1" type="StaticBody2D" parent="LevelContent" index="1"]
+position = Vector2(400, 600)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelContent/SimplePlatform1" index="0"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="ColorRect" type="ColorRect" parent="LevelContent/SimplePlatform1" index="1"]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.5, 0.5, 0.5, 1)
+
+[node name="SimplePlatform2" type="StaticBody2D" parent="LevelContent" index="2"]
+position = Vector2(800, 500)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelContent/SimplePlatform2" index="0"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="ColorRect" type="ColorRect" parent="LevelContent/SimplePlatform2" index="1"]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.3, 0.8, 0.5, 1)
+
+[node name="SimplePlatform3" type="StaticBody2D" parent="LevelContent" index="3"]
+position = Vector2(1200, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelContent/SimplePlatform3" index="0"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="ColorRect" type="ColorRect" parent="LevelContent/SimplePlatform3" index="1"]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.8, 0.5, 0.3, 1)
+
+[node name="Label" type="Label" parent="LevelContent" index="4"]
+offset_left = 600.0
+offset_top = 200.0
+offset_right = 600.0
+offset_bottom = 200.0
+text = "LEVEL 2 - Simple Test Level
+Jump across platforms and walk right to return to Level 1"
+horizontal_alignment = 1
+
+[node name="SpawnPoints" type="Node2D" parent="LevelContent" index="5"]
+
+[node name="DefaultSpawn" parent="LevelContent/SpawnPoints" index="0" instance=ExtResource("3_spawn")]
+position = Vector2(366, 543)
+
+[node name="FromLevel1Spawn" parent="LevelContent/SpawnPoints" index="1" instance=ExtResource("3_spawn")]
+position = Vector2(318, 462)
+spawn_id = "from_level1"

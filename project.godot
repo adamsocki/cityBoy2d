@@ -11,13 +11,18 @@ config_version=5
 [application]
 
 config/name="t2"
-run/main_scene="res://game.tscn"
+run/main_scene="res://Level1.tscn"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 DeveloperMode="*res://developer_mode.gd"
+GameManager="*res://singletons/game_manager_singleton.gd"
+LevelManager="*res://singletons/level_manager_singleton.gd"
+TimeManager="*res://singletons/time_manager_singleton.gd"
+AudioManager="*res://singletons/audio_manager_singleton.gd"
+SaveManager="*res://singletons/save_manager_singleton.gd"
 
 [display]
 

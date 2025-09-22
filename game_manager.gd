@@ -1,41 +1,33 @@
 extends Node2D
 
 @onready var pause_menu := $Camera/PauseMenu
-@export var timeManager: TimeManager
-# @onready var levelManager := $Manager/LevelManager
 @export var is_developer_mode: bool = false
 
-var developer_mode: Node
 var levelManager = load("res://LevelManager.cs")
 var levelManagerNode = levelManager.new()
 
-
 func _ready():
-	if timeManager:
-		timeManager.init_time_manager()
-		timeManager.add_to_group("time_manager")
+	# Connect to global GameManager pause signal to control local pause menu
+	if GameManager:
+		GameManager.game_paused.connect(_on_game_paused)
+
 
 	if levelManager:
-		#add_child(levelManagerNode)
 		levelManagerNode.InitLevelManager()
-	
-	# Create and add developer mode
-	developer_mode = preload("res://developer_mode.gd").new()
-	add_child(developer_mode)
-	developer_mode.add_to_group("developer_mode")
-	
+
 	Engine.max_fps = 0
 
+	# Set current level in LevelManager
+	if LevelManager:
+		LevelManager.current_level = get_scene_file_path()
 
 func _process(delta):
-	if timeManager:
-		timeManager.update_time_manager(delta)
-
-	if Input.is_action_just_pressed("pause"):
-		pause_menu.visible = !pause_menu.visible
-		
 	updateFPS()
 
+func _on_game_paused(is_paused: bool):
+	# Control pause menu visibility through global GameManager
+	if pause_menu:
+		pause_menu.visible = is_paused
 
 func updateFPS():
 	#print(Engine.get_frames_per_second())
