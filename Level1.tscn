@@ -13,8 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://b0wxb50y4odvb" path="res://sprites/Sidescroller Shooter - Central City/Assets/Props-01.png" id="11_props"]
 [ext_resource type="PackedScene" uid="uid://4bu8cebhx58r" path="res://closing_platform.tscn" id="12_closing"]
 [ext_resource type="PackedScene" uid="uid://b7up8f3o43hdv" path="res://npc_001.tscn" id="13_npc"]
-[ext_resource type="PackedScene" path="res://SpawnPoint.tscn" id="14_spawn"]
-[ext_resource type="PackedScene" path="res://LevelTransition.tscn" id="14_transition"]
+[ext_resource type="PackedScene" uid="uid://dgm4llqeadrjy" path="res://SpawnPoint.tscn" id="14_spawn"]
+[ext_resource type="PackedScene" uid="uid://ce8bw4ljjpba" path="res://LevelTransition.tscn" id="14_transition"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_buildings"]
 texture = ExtResource("4_buildings")
@@ -1070,7 +1070,7 @@ sources/0 = SubResource("TileSetAtlasSource_props")
 script = null
 
 [node name="Player" parent="." index="1"]
-position = Vector2(2530, 852)
+position = Vector2(2652.41, 852)
 GRAVITY = 2000.0
 ACCELERATION = 300.0
 max_speed = 200.0
@@ -1080,8 +1080,12 @@ drop_accel = 1000.0
 JUMP_VELOCITY = -2000.0
 COYOTE_TIME = 0.08
 
+[node name="SkyColorManager" parent="." index="3"]
+sky_transition_duration = null
+sky_colors_per_time_of_day = null
+
 [node name="LevelTransition" parent="LevelContent" index="0" instance=ExtResource("14_transition")]
-position = Vector2(2704, 830)
+position = Vector2(2452.62, 830)
 next_level_scene = "res://Level2.tscn"
 spawn_point = "from_level1"
 
@@ -1090,7 +1094,7 @@ position = Vector2(1304, 967)
 scale = Vector2(5.07153, 5.07153)
 
 [node name="FrontalFog" type="Sprite2D" parent="LevelContent" index="2"]
-position = Vector2(1459, 1124.0001)
+position = Vector2(4940, -6595.9995)
 scale = Vector2(418.938, 10.8681)
 texture = ExtResource("3_fog")
 
@@ -1146,7 +1150,6 @@ npc_speed = 20.0
 
 [node name="DefaultSpawn" parent="LevelContent/SpawnPoints" index="0" instance=ExtResource("14_spawn")]
 position = Vector2(366, 543)
-spawn_id = "default"
 
 [node name="FromLevel2Spawn" parent="LevelContent/SpawnPoints" index="1" instance=ExtResource("14_spawn")]
 position = Vector2(2700, 700)

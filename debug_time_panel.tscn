@@ -1,0 +1,160 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7q8fy5jn8rfk"]
+
+[ext_resource type="Script" path="res://debug_time_panel.gd" id="1_debug_panel"]
+
+[node name="DebugTimePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 410.0
+offset_bottom = 510.0
+script = ExtResource("1_debug_panel")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "TIME DEBUG PANEL"
+horizontal_alignment = 1
+
+[node name="TimeValueLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "EVENING (0.667)"
+horizontal_alignment = 1
+
+[node name="NormalizedTimeSlider" type="HSlider" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.0
+max_value = 0.9999
+step = 0.001
+value = 0.667
+
+[node name="ControlButtons" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PauseButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ControlButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pause"
+
+[node name="ResetButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ControlButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
+
+[node name="Separator1" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TimeFactorLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Time Factor: 0.70"
+
+[node name="TimeFactorSlider" type="HSlider" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.7
+
+[node name="DistanceFactorLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Distance Factor: 0.30"
+
+[node name="DistanceFactorSlider" type="HSlider" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.3
+
+[node name="Separator2" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CycleDurationLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Full Cycle: 600s (10.0m)"
+
+[node name="CycleDurationSlider" type="HSlider" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 60.0
+max_value = 3600.0
+step = 10.0
+value = 600.0
+
+[node name="Separator3" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="QuickTimeLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quick Time Jumps:"
+
+[node name="QuickTimeButtons" type="GridContainer" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="DawnButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/QuickTimeButtons"]
+layout_mode = 2
+text = "Dawn"
+
+[node name="MidmorningButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/QuickTimeButtons"]
+layout_mode = 2
+text = "Midmorning"
+
+[node name="NoonButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/QuickTimeButtons"]
+layout_mode = 2
+text = "Noon"
+
+[node name="DuskButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/QuickTimeButtons"]
+layout_mode = 2
+text = "Dusk"
+
+[node name="EveningButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/QuickTimeButtons"]
+layout_mode = 2
+text = "Evening"
+
+[node name="MidnightButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/QuickTimeButtons"]
+layout_mode = 2
+text = "Midnight"
+
+[node name="Separator4" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="GameTimeLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Game Time: 0.00s"
+
+[node name="DistanceLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Distance: 0.0m"
+
+[node name="ColorPreview" type="ColorRect" parent="Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+color = Color(1, 0.6, 0.4, 1)
+
+[node name="ColorModeButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Auto"
