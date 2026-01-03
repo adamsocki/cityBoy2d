@@ -1,11 +1,13 @@
 
 extends CharacterBody2D
 
+signal distance_traveled(distance_delta: float)
+
 enum PlayerState {
 	IDLE,
-	WALK, 
+	WALK,
 	JUMP_UP,
-	JUMP_DOWN, 
+	JUMP_DOWN,
 	ATTACK,
 }
 
@@ -33,6 +35,11 @@ var coyoteTimer: Timer
 var prevFrameOnFloor: bool = false
 
 var current_state = PlayerState.IDLE
+
+# Distance tracking for time progression
+var last_position: Vector2 = Vector2.ZERO
+var total_distance: float = 0.0
+var distance_tracking_enabled: bool = true
 
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var ground_ray := $GroundRay
@@ -62,11 +69,25 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, input_dir * max_speed, ACCELERATION * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+
+	# Track horizontal distance traveled (only when grounded and walking)
+	if distance_tracking_enabled and is_grounded() and abs(velocity.x) > 10.0:
+		var current_pos = global_position
+		var distance_delta = abs(current_pos.x - last_position.x)
+
+		if distance_delta > 0.1:  # Minimum threshold to avoid jitter
+			total_distance += distance_delta
+			distance_traveled.emit(distance_delta)
+
+		last_position = current_pos
+	else:
+		last_position = global_position
+
 	move_and_slide()
 	#print("motion mode:, ", motion_mode)
 	#print("is jump?: ", isJumping)
 	update_animation_state()
-	
+
 	current_direction = input_dir
 
 
@@ -128,6 +149,9 @@ func _ready():
 	coyoteTimer = Timer.new()
 	coyoteTimer.wait_time = COYOTE_TIME
 	add_child(coyoteTimer)
+
+	# Initialize distance tracking
+	last_position = global_position
 
 func _process(delta):
 	pass

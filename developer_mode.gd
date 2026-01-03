@@ -1,15 +1,19 @@
 extends Node
 
 @export var is_developer_mode: bool = false
+
+# Legacy variables (kept for backward compatibility)
 @export var manual_time_of_day: TimeManager.TimeOfDay = TimeManager.TimeOfDay.EVENING
 @export var pause_time_progression: bool = true
 @export var use_manual_colors: bool = true
 
-var debug_label: Label
-var debug_panel: Control
+var debug_panel_scene = preload("res://debug_time_panel.tscn")
+var debug_panel_instance: Control = null
+var canvas_layer: CanvasLayer = null
 
 func _ready():
-	create_debug_ui()
+	add_to_group("developer_mode")
+	pass  # Debug UI created on demand when toggled
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
@@ -34,74 +38,31 @@ func _input(event):
 		elif is_developer_mode and event.keycode == KEY_6:
 			set_time_of_day(TimeManager.TimeOfDay.NIGHT)
 
-func create_debug_ui():
-	# Create a CanvasLayer to ensure the debug UI renders on top
-	var canvas_layer = CanvasLayer.new()
-	canvas_layer.layer = 100  # High layer value to render on top
-	get_tree().current_scene.add_child(canvas_layer)
-	
-	debug_panel = Control.new()
-	debug_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-	debug_panel.position = Vector2(10, 10)
-	debug_panel.size = Vector2(400, 200)
-	debug_panel.visible = false
-	
-	var background = ColorRect.new()
-	background.color = Color(0, 0, 0, 0.8)  # Slightly more opaque
-	background.size = debug_panel.size
-	debug_panel.add_child(background)
-	
-	debug_label = Label.new()
-	debug_label.position = Vector2(10, 10)
-	debug_label.size = Vector2(380, 180)
-	debug_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	debug_panel.add_child(debug_label)
-	
-	canvas_layer.add_child(debug_panel)
+func _show_debug_panel():
+	if not debug_panel_instance:
+		# Create canvas layer for UI
+		canvas_layer = CanvasLayer.new()
+		canvas_layer.layer = 100
+		get_tree().current_scene.add_child(canvas_layer)
 
-func _process(_delta):
-	if is_developer_mode and debug_panel:
-		update_debug_display()
+		debug_panel_instance = debug_panel_scene.instantiate()
+		canvas_layer.add_child(debug_panel_instance)
 
-func update_debug_display():
-	if not debug_label:
-		return
-		
-	var time_manager = get_tree().get_first_node_in_group("time_manager")
-	if not time_manager:
-		debug_label.text = "Time Manager not found!"
-		return
-	
-	var time_name = TimeManager.TimeOfDay.keys()[manual_time_of_day if pause_time_progression else time_manager.time_of_day]
-	var game_time_formatted = "%.2f" % time_manager.game_time
-	var period_duration = time_manager.time_period_duration
-	var current_period_progress = 0.0
-	
-	if period_duration > 0:
-		current_period_progress = (fmod(time_manager.game_time, period_duration) / period_duration) * 100.0
-	
-	debug_label.text = """TIME DEBUG INFO:
-Current Time: %s
-Game Time: %s seconds
-Period Duration: %.1f seconds
-Period Progress: %.1f%%
-Time Progression: %s
-Color Mode: %s
+	debug_panel_instance.visible = true
 
-CONTROLS:
-F12 - Toggle Dev Mode
-T - Cycle Time of Day
-P - Toggle Time Progression
-C - Toggle Color Mode
-1-6 - Set specific time
-""" % [time_name, game_time_formatted, period_duration, current_period_progress, "PAUSED" if pause_time_progression else "RUNNING", "MANUAL" if use_manual_colors else "AUTOMATIC"]
+func _hide_debug_panel():
+	if debug_panel_instance:
+		debug_panel_instance.visible = false
 
 func toggle_developer_mode():
 	is_developer_mode = !is_developer_mode
-	if debug_panel:
-		debug_panel.visible = is_developer_mode
+
+	if is_developer_mode:
+		_show_debug_panel()
+	else:
+		_hide_debug_panel()
+
 	print("Developer mode: ", "ENABLED" if is_developer_mode else "DISABLED")
-	print_debug_controls()
 
 func is_dev_mode() -> bool:
 	return is_developer_mode
@@ -149,13 +110,14 @@ func toggle_manual_colors():
 		var time_to_emit = manual_time_of_day if use_manual_colors else time_manager.time_of_day
 		time_manager.time_of_day_changed.emit(time_to_emit)
 
-func print_debug_controls():
-	if is_developer_mode:
-		print("=== TIME DEBUG CONTROLS ===")
-		print("F12 - Toggle Developer Mode")
-		print("T - Cycle Time of Day")
-		print("P - Toggle Time Progression")
-		print("C - Toggle Color Mode (Manual/Automatic)")
-		print("1 - Morning | 2 - Mid-Morning | 3 - Noon")
-		print("4 - Afternoon | 5 - Evening | 6 - Night")
-		print("============================")
+func get_manual_normalized_time() -> float:
+	if debug_panel_instance and debug_panel_instance.has_method("get_manual_normalized_time"):
+		return debug_panel_instance.get_manual_normalized_time()
+	# Fallback: convert legacy manual_time_of_day to normalized
+	return float(manual_time_of_day) / 6.0
+
+# Legacy compatibility - now delegates to panel
+func is_time_progression_paused() -> bool:
+	if debug_panel_instance and debug_panel_instance.has_method("is_time_paused"):
+		return debug_panel_instance.is_time_paused()
+	return pause_time_progression

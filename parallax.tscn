@@ -1,7 +1,5 @@
-[gd_scene load_steps=12 format=4 uid="uid://btbqqyl5vksp7"]
+[gd_scene load_steps=10 format=4 uid="uid://btbqqyl5vksp7"]
 
-[ext_resource type="Texture2D" uid="uid://bothdreh348cy" path="res://backgrounds/demon_woods/parallax-demon-woods-bg.png" id="1_ji414"]
-[ext_resource type="Texture2D" uid="uid://n5s65xvpqmiy" path="res://backgrounds/city background/night/night sky.png" id="1_wg8n8"]
 [ext_resource type="Texture2D" uid="uid://cmkfbwccx4k17" path="res://backgrounds/Futuristic City Parallax/city1plan.png" id="2_0qlja"]
 [ext_resource type="Texture2D" uid="uid://bnitwpp7aamxy" path="res://backgrounds/Futuristic City Parallax/sun.png" id="2_3tuck"]
 [ext_resource type="Texture2D" uid="uid://bq6qx0taehu6f" path="res://backgrounds/demon_woods/parallax-demon-woods-close-trees.png" id="2_k0f50"]
@@ -79,11 +77,11 @@ visible = false
 position = Vector2(-15, -13)
 motion_scale = Vector2(0, 0)
 
-[node name="SkyColor" type="Sprite2D" parent="Level2_Parallax/ParallaxLayer"]
-position = Vector2(213, 23.999998)
-scale = Vector2(6.71316, 9.01111)
-texture = ExtResource("1_ji414")
-centered = false
+[node name="SkyColor" type="ColorRect" parent="Level2_Parallax/ParallaxLayer"]
+offset_left = 213.0
+offset_top = 24.0
+offset_right = 2133.0
+offset_bottom = 1104.0
 
 [node name="ParallaxLayer4" type="ParallaxLayer" parent="Level2_Parallax"]
 modulate = Color(1, 1, 1, 0.333333)
@@ -120,10 +118,11 @@ centered = false
 position = Vector2(-15, -13)
 motion_scale = Vector2(0, 0)
 
-[node name="SkyColor" type="Sprite2D" parent="Level1_Parallax/ParallaxLayer"]
-scale = Vector2(6.71316, 9.01111)
-texture = ExtResource("1_wg8n8")
-centered = false
+[node name="SkyColor" type="ColorRect" parent="Level1_Parallax/ParallaxLayer"]
+offset_left = -5667.0
+offset_top = -3368.0
+offset_right = 9996.0
+offset_bottom = 6121.0
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="Level1_Parallax"]
 motion_scale = Vector2(0, 0)
@@ -142,13 +141,13 @@ motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(2400, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Level1_Parallax/ParallaxLayer4"]
-position = Vector2(-344, -968)
+position = Vector2(-334.17694, -296.2025)
 scale = Vector2(3.833, 5.36944)
 texture = ExtResource("2_0qlja")
 centered = false
 
 [node name="Sprite2D2" type="Sprite2D" parent="Level1_Parallax/ParallaxLayer4"]
-position = Vector2(-344, -968)
+position = Vector2(-2163.291, 282.27856)
 scale = Vector2(3.833, 5.36944)
 texture = ExtResource("2_0qlja")
 centered = false

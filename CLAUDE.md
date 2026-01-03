@@ -4,144 +4,163 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Godot 4.5 2D platformer game called "cityBoy2d" featuring a cyberpunk/urban aesthetic. The game includes a player character that can move, jump, and interact with NPCs in a city environment with parallax backgrounds. The project uses a hybrid GDScript and C# architecture.
+This is a Godot 4.5 2D platformer game called "cityBoy2d" featuring a cyberpunk/urban aesthetic. The project uses a hybrid GDScript and C# architecture with a singleton-based system for managing core game functionality.
 
 ## Development Commands
 
 **Running the Game:**
 - Open the project in Godot Editor and press F5, or use the "Play" button
-- Main scene: `res://game.tscn`
-
-**Project Structure:**
+- Main scene: `res://Level1.tscn`
 - No build system - Godot handles compilation internally
-- Hybrid GDScript/C# project with .NET support
-- No separate test framework identified in the codebase
 - Assets are automatically imported by Godot Engine
 
-## Code Architecture
+## Architecture Overview
 
-### Core Systems
+### Singleton System (Autoloads)
 
-**Game Manager (`game_manager.gd`)**
-- Main game controller that manages pause functionality and FPS monitoring
-- Integrates with TimeManager for game time progression
-- Handles pause menu visibility via Escape key
+The game uses six autoloaded singletons that manage core functionality:
 
-**Player System (`player.gd`)**
-- CharacterBody2D-based player controller with state machine
-- States: IDLE, WALK, JUMP_UP, JUMP_DOWN, ATTACK
-- Physics-based movement with gravity, acceleration, friction
-- Animation system tied to movement states
-- Ground detection with raycast for improved platform behavior
-
-**Time Management (`time_manager.gd`)**
-- Tracks game time progression
-- Supports time-of-day system (MORNING, MIDMORNING, NOON, AFTERNOON, EVENING, NIGHT)
-- Currently set to EVENING by default
-
-**NPC System (`npc_001.gd`)**
-- AI-controlled characters using BasicMovingCharacter2D base class
-- State machine with WALK/IDLE states
-- Interaction system via InteractiveArea2D
-- Direction-based sprite flipping and collision adjustment
-
-**Level Management (`LevelManager.cs`)**
-- C# component for managing scene visibility and transitions
-- Controls Scene switching between different level nodes
-- Exported properties for direct scene assignment in editor
-
-**Sky Color Management (`sky_color_manager.gd`)**
-- Manages dynamic sky color transitions based on time of day
-- Smooth color interpolation with configurable transition duration
-- Integrates with time management and developer mode systems
-
-**Developer Mode (`developer_mode.gd`)**
-- Autoload singleton for development tools and debugging
+**DeveloperMode** (`developer_mode.gd`)
+- Global developer tools and debugging system
 - Runtime controls for time progression, sky colors, and time of day
-- On-screen debug UI with real-time game state information
-- Hotkey system (F12 for dev mode, T/P/C/1-6 for various controls)
+- Hotkey system: F12 (toggle), T (cycle time), P (pause time), C (color mode), 1-6 (specific times)
 
-### Reusable Components (`Recipies/` folder)
+**GameManager** (`singletons/game_manager_singleton.gd`)
+- Central game state controller
+- Manages pause functionality via `game_paused` signal
+- Maintains player data (health, items, coins, experience, checkpoint positions)
+- Stores game settings (developer_mode, volumes)
+- Always processed (PROCESS_MODE_ALWAYS) to handle pause input
 
-**BasicMovingCharacter2D**
-- Base class for moving characters with physics
-- Configurable speed, direction, gravity, and jump strength
+**LevelManager** (`singletons/level_manager_singleton.gd`)
+- Scene transition system with fade effects
+- Maintains current level state and level completion tracking
+- Spawn point positioning system via `spawn_points` group
+- Emits signals: `level_transition_started`, `level_transition_completed`, `level_loaded`
+- Prevents concurrent transitions with `is_transitioning` flag
 
-**InteractiveArea2D**
-- Area2D-based interaction system
-- Emits signals for interaction availability and completion
-- Input handling for interaction actions
+**TimeManager** (`singletons/time_manager_singleton.gd`)
+- Day/night cycle with 6 time periods: MORNING, MIDMORNING, NOON, AFTERNOON, EVENING, NIGHT
+- Configurable time progression speed and period duration
+- Emits `time_of_day_changed` signal for color transitions
+- Can be controlled by DeveloperMode for debugging
 
-**BumptingEnemy2D**
-- Enemy character component with collision-based behavior
-- Part of the reusable character system architecture
+**AudioManager** (`singletons/audio_manager_singleton.gd`)
+- Three audio buses: Music, SFX, Ambient
+- Music/SFX library system with fade transitions
+- Volume controls and enable/disable toggles
+- Creates temporary AudioStreamPlayers for overlapping sound effects
 
-### Scene Structure
+**SaveManager** (`singletons/save_manager_singleton.gd`)
+- JSON-based save system with 3 save slots
+- Auto-save functionality (5 minute interval by default)
+- Saves all singleton state: player data, level progress, time state, audio settings
+- Save location: `user://savegame_[0-2].save`
 
-- `game.tscn` - Main game scene
-- `level_node1.tscn` - Level scene managed by LevelManager
-- `player.tscn` - Player character prefab
-- `npc_001.tscn` - NPC prefab
-- `MainMenu.tscn` / `PauseMenu.tscn` - UI scenes
-- `parallax.tscn` / `parallax2.tscn` - Parallax background scenes
-- `LevelManager.tscn` - C# level management system
-- Various platform and environment prefabs (elevator, closing_platform, light_platform, etc.)
+### Level System Architecture
+
+**BaseLevel Pattern** (`base_level.gd`)
+- Common base script for all level scenes
+- Connects to singleton signals on `_ready()`
+- Handles spawn point positioning from GameManager player data
+- Manages pause menu visibility via GameManager signals
+- Links TimeManager to SkyColorManager for dynamic sky colors
+- Properly disconnects signals on `_exit_tree()`
+
+**Level Transitions** (`level_transition.gd`)
+- Area2D-based trigger system
+- Properties: `next_level_scene` (String), `spawn_point` (String), `transition_delay` (float)
+- Calls `LevelManager.transition_to_level()` with spawn point ID
+- Prevents re-triggering with `is_transitioning` flag
+
+**Spawn Points** (`spawn_point.gd`)
+- SpawnPoint class extends Marker2D
+- Properties: `spawn_id`, `spawn_direction`, `is_checkpoint`
+- Added to `spawn_points` group for LevelManager lookup
+- Checkpoint activation saves position to GameManager
+- Editor-only visual indicators (green for default, yellow for named)
+
+### Character System
+
+**Player** (`player.gd`)
+- CharacterBody2D with state machine: IDLE, WALK, JUMP_UP, JUMP_DOWN, ATTACK
+- Physics-based movement with configurable gravity, acceleration, friction
+- Ground detection raycast for platform snapping
+- Animation system tied to movement states
+- Direction-based sprite flipping
+
+**Reusable Components** (`Recipies/` folder)
+- `BasicMovingCharacter2D.gd` - Base class for AI characters with physics
+- `InteractiveArea2D.gd` - Area2D interaction system with signals
+- `BumptingEnemy2D.gd` - Enemy collision behavior component
+
+**NPC System** (`npc_001.gd`)
+- Extends BasicMovingCharacter2D base class
+- State machine with WALK/IDLE states
+- Uses InteractiveArea2D for player interaction
+- Direction-based collision adjustment
+
+### Visual Systems
+
+**Sky Color Manager** (`sky_color_manager.gd`)
+- Dynamic sky color transitions based on TimeManager
+- Smooth color interpolation with configurable duration
+- Responds to `time_of_day_changed` signal
+- Can be manually controlled via DeveloperMode
+
+**Parallax Backgrounds** (`parallax.tscn`, `parallax2.tscn`)
+- Time-of-day specific city backgrounds
+- Integrated with overall aesthetic
 
 ### Input Configuration
 
-**Defined input actions:**
-- `left` - Left Arrow key movement
-- `right` - Right Arrow / D key movement
-- `jump` / `space` - Spacebar for jumping
-- `pause` - Escape key for pause menu
-- `e_key` - E key for interactions
+**Movement:**
+- `left` - Left Arrow
+- `right` - Right Arrow / D key
+- `jump` / `space` - Spacebar
+- `e_key` - E key (interactions)
+- `pause` - Escape key
 
-**Developer Mode Controls:**
-- `F12` - Toggle developer mode on/off
-- `T` - Cycle through time of day (when dev mode active)
-- `P` - Toggle time progression pause (when dev mode active)
-- `C` - Toggle manual/automatic color mode (when dev mode active)
-- `1-6` - Set specific time of day directly (when dev mode active)
-
-### Art Assets
-
-The project contains extensive pixel art assets organized in folders:
-- Character sprites with animation frames (idle, walk, jump)
-- Parallax city backgrounds for different times of day
-- Tileset assets for level construction
-- UI elements and environmental props
+**Developer Mode (when active):**
+- `F12` - Toggle developer mode
+- `T` - Cycle through time of day
+- `P` - Toggle time progression pause
+- `C` - Toggle manual/automatic color mode
+- `1-6` - Set specific time of day directly
 
 ### Physics Configuration
 
-- Uses Godot's CharacterBody2D for player movement
-- Custom pass-through layer (layer 2) for one-way platforms
+- CharacterBody2D-based movement system
+- Layer 2: "Pass Through Layer" for one-way platforms
 - Ground detection raycast for improved platform snapping
-- Configurable physics parameters (gravity, acceleration, friction, jump velocity)
+- Configurable physics parameters in player script
 
-## Current Game Features
+## Important Patterns
 
-- 2D platformer movement with jump mechanics
-- NPC interaction system
-- Dynamic time of day progression system
-- Sky color transitions based on time of day
-- Developer mode with runtime debugging tools
-- Level management and scene switching
-- Pause functionality
-- Parallax scrolling backgrounds
-- Urban/cyberpunk aesthetic with pixel art
-- Basic UI system
-- Hybrid GDScript/C# architecture
+**Singleton Communication:**
+- Prefer signals over direct method calls
+- All singletons emit signals for state changes
+- Connect to singleton signals in level `_ready()`, disconnect in `_exit_tree()`
+
+**Level Scene Setup:**
+- Extend or reference `base_level.gd` for common functionality
+- Include PauseMenu, Player, and SkyColorManager nodes
+- Ensure spawn points are in `spawn_points` group with unique IDs
+
+**Data Persistence:**
+- Player state is saved to GameManager via `save_player_data()`
+- LevelManager tracks level completion independently
+- SaveManager serializes all singleton state to JSON
+
+**Dual Language Architecture:**
+- GDScript for game logic and singleton systems
+- C# for specific components (LevelManager.cs for editor scene management)
+- C# assembly name: "t2"
 
 ## Development Notes
 
-- Project is configured for 2400x1600 resolution
-- VSync mode set to 2 (adaptive)
-- Uses Forward Plus rendering
-- No FPS limit set (Engine.max_fps = 0)
-- DeveloperMode is set as an autoload singleton
-- C# assembly name: "t2"
-- Godot 4.5 with C# support enabled
-
-## Autoloads
-
-- `DeveloperMode` - Global developer tools and debugging system (`*res://developer_mode.gd`)
+- Resolution: 2400x1600
+- VSync: Adaptive (mode 2)
+- Rendering: Forward Plus
+- No FPS limit (Engine.max_fps = 0)
+- Godot 4.5 with .NET 8.0 support

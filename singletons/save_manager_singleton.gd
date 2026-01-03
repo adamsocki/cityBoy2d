@@ -111,11 +111,16 @@ func _collect_save_data() -> Dictionary:
 	# Collect time data from TimeManager
 	if TimeManager:
 		save_data.time_data = {
-			"current_time": TimeManager.get_time_of_day(),
+			"current_time": TimeManager.get_time_of_day(),  # Keep for compatibility
 			"game_time": TimeManager.get_game_time(),
+			"normalized_time": TimeManager.get_normalized_time(),  # NEW
+			"total_distance": TimeManager.get_distance_traveled(),  # NEW
 			"time_period_duration": TimeManager.get_time_period_duration(),
 			"time_progression_enabled": TimeManager.is_time_progression_enabled(),
-			"time_speed": TimeManager.get_time_speed()
+			"time_speed": TimeManager.get_time_speed(),
+			"distance_factor": TimeManager.distance_contribution_factor,  # NEW
+			"time_factor": TimeManager.time_contribution_factor,  # NEW
+			"seconds_per_cycle": TimeManager.seconds_per_full_cycle,  # NEW
 		}
 
 	# Collect audio settings from AudioManager
@@ -153,11 +158,27 @@ func _apply_save_data(save_data: Dictionary):
 	# Apply time data to TimeManager
 	if save_data.has("time_data") and TimeManager:
 		var time_data = save_data.time_data
+
+		# Load normalized time if available (new save format)
+		if time_data.has("normalized_time"):
+			TimeManager.normalized_time = time_data.get("normalized_time", 0.667)
+			TimeManager.total_distance_traveled = time_data.get("total_distance", 0.0)
+			TimeManager.distance_contribution_factor = time_data.get("distance_factor", 0.3)
+			TimeManager.time_contribution_factor = time_data.get("time_factor", 0.7)
+			TimeManager.seconds_per_full_cycle = time_data.get("seconds_per_cycle", 600.0)
+		else:
+			# Fallback to discrete time for old saves
+			var discrete_time = time_data.get("current_time", TimeManager.TimeOfDay.EVENING)
+			TimeManager.normalized_time = (discrete_time as float) / 6.0
+
 		TimeManager.game_time = time_data.get("game_time", 0.0)
 		TimeManager.set_time_of_day(time_data.get("current_time", TimeManager.TimeOfDay.EVENING))
 		TimeManager.set_time_period_duration(time_data.get("time_period_duration", 10.0))
 		TimeManager.set_time_progression_enabled(time_data.get("time_progression_enabled", true))
 		TimeManager.set_time_speed(time_data.get("time_speed", 1.0))
+
+		# Emit initial signal to update visuals
+		TimeManager.continuous_time_changed.emit(TimeManager.normalized_time)
 
 	# Apply audio settings to AudioManager
 	if save_data.has("audio_settings") and AudioManager:
