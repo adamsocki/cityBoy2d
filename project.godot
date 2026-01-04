@@ -23,6 +23,7 @@ LevelManager="*res://singletons/level_manager_singleton.gd"
 TimeManager="*res://singletons/time_manager_singleton.gd"
 AudioManager="*res://singletons/audio_manager_singleton.gd"
 SaveManager="*res://singletons/save_manager_singleton.gd"
+DebugDrawManager="*res://debug_system/debug_draw_manager_singleton.gd"
 
 [display]
 

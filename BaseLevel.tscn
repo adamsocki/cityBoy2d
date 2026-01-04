@@ -17,6 +17,7 @@ target_path = NodePath("../Player")
 position = Vector2(300, 500)
 
 [node name="Parallax2D" parent="." instance=ExtResource("3_parallax")]
+position = Vector2(-3, -18)
 
 [node name="SkyColorManager" type="CanvasLayer" parent="." node_paths=PackedStringArray("parallax_scene")]
 script = ExtResource("4_sky")

@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://dj7r2k5vtm8wh"]
+
+[ext_resource type="Script" path="res://ui/debug/level_debug_tab.gd" id="1_level_tab"]
+[ext_resource type="Script" path="res://ui/debug/collapsible_section.gd" id="2_collapsible"]
+
+[node name="LevelDebugTab" type="ScrollContainer"]
+offset_right = 380.0
+offset_bottom = 480.0
+script = ExtResource("1_level_tab")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="VisualizationSection" type="VBoxContainer" parent="Content"]
+layout_mode = 2
+script = ExtResource("2_collapsible")
+section_title = "Visualization"
+
+[node name="VisualizationToggles" type="VBoxContainer" parent="Content/VisualizationSection"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TransitionsToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "Level Transitions"
+
+[node name="SpawnPointsToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "Spawn Points"
+
+[node name="InteractiveAreasToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "Interactive Areas"
+
+[node name="CameraDeadZonesToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "Camera Dead Zones"
+
+[node name="LevelInfoSection" type="VBoxContainer" parent="Content"]
+layout_mode = 2
+script = ExtResource("2_collapsible")
+section_title = "Level Info"
+
+[node name="InfoPanel" type="VBoxContainer" parent="Content/LevelInfoSection"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LevelNameLabel" type="Label" parent="Content/LevelInfoSection/InfoPanel"]
+layout_mode = 2
+text = "Level: Unknown"
+
+[node name="SpawnPointLabel" type="Label" parent="Content/LevelInfoSection/InfoPanel"]
+layout_mode = 2
+text = "Active Spawn: default"
+
+[node name="TransitionCountLabel" type="Label" parent="Content/LevelInfoSection/InfoPanel"]
+layout_mode = 2
+text = "Transitions: 0"

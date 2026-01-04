@@ -43,6 +43,7 @@ var distance_tracking_enabled: bool = true
 
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var ground_ray := $GroundRay
+@onready var debug_draw_manager = get_node_or_null("/root/DebugDrawManager")
 
 var current_direction: float = 0
 	
@@ -89,6 +90,10 @@ func _physics_process(delta):
 	update_animation_state()
 
 	current_direction = input_dir
+
+	# Trigger redraw if debug enabled
+	if DeveloperMode.is_developer_mode and _should_debug_draw():
+		queue_redraw()
 
 
 func drop():
@@ -153,5 +158,91 @@ func _ready():
 	# Initialize distance tracking
 	last_position = global_position
 
+	# Enable debug drawing
+	set_notify_transform(true)
+
 func _process(delta):
 	pass
+
+func _should_debug_draw() -> bool:
+	if not debug_draw_manager:
+		return false
+	return (debug_draw_manager.draw_raycasts or
+			debug_draw_manager.draw_velocity_vectors or
+			debug_draw_manager.draw_state_info)
+
+func _draw():
+	if not DeveloperMode.is_developer_mode:
+		return
+	if not debug_draw_manager:
+		return
+
+	# Note: Collision shapes are now visualized using Godot's native debug_collisions_hint
+	# Enable via DebugDrawManager.set_debug_feature("native_collision_shapes", true)
+
+	# Draw raycasts
+	if debug_draw_manager.draw_raycasts:
+		_draw_ground_rays()
+
+	# Draw velocity vector
+	if debug_draw_manager.draw_velocity_vectors:
+		_draw_velocity_vector()
+
+	# Draw state label
+	if debug_draw_manager.draw_state_info:
+		_draw_state_label()
+
+func _draw_ground_rays():
+	if not ground_ray:
+		return
+
+	var color_hit = debug_draw_manager.get_debug_color("raycast_hit")
+	var color_miss = debug_draw_manager.get_debug_color("raycast_miss")
+
+	# Ground detection raycast
+	if ground_ray.is_colliding():
+		var start = ground_ray.global_position - global_position
+		var end = ground_ray.get_collision_point() - global_position
+		draw_line(start, end, color_hit, 2.0)
+		draw_circle(end, 3, color_hit)
+	else:
+		var start = ground_ray.global_position - global_position
+		var end = start + Vector2(0, 14)  # Max raycast distance
+		draw_line(start, end, color_miss, 1.0)
+
+func _draw_velocity_vector():
+	if velocity.length() < 10:  # Only draw if moving
+		return
+
+	var color = debug_draw_manager.get_debug_color("velocity_vector")
+	var scaled_vel = velocity * 0.5  # Scale for visibility
+	draw_line(Vector2.ZERO, scaled_vel, color, 3.0)
+
+	# Arrowhead
+	if scaled_vel.length() > 0:
+		var angle = velocity.angle()
+		var head_size = 8
+		var head1 = scaled_vel + Vector2(cos(angle + 2.5), sin(angle + 2.5)) * head_size
+		var head2 = scaled_vel + Vector2(cos(angle - 2.5), sin(angle - 2.5)) * head_size
+		draw_line(scaled_vel, head1, color, 3.0)
+		draw_line(scaled_vel, head2, color, 3.0)
+
+func _draw_state_label():
+	var state_names = ["IDLE", "WALK", "JUMP_UP", "JUMP_DOWN", "ATTACK"]
+	var label = state_names[current_state] if current_state < state_names.size() else "UNKNOWN"
+	var font = ThemeDB.fallback_font
+	var font_size = 12
+
+	# Add velocity info
+	var full_text = label + "\nVel: (%.0f, %.0f)" % [velocity.x, velocity.y]
+	full_text += "\nGround: " + ("YES" if is_grounded() else "NO")
+
+	# Draw each line
+	var lines = full_text.split("\n")
+	var y_offset = -60
+	for line in lines:
+		var text_size = font.get_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
+		var bg_rect = Rect2(Vector2(-text_size.x / 2 - 4, y_offset - font_size), text_size + Vector2(8, 4))
+		draw_rect(bg_rect, debug_draw_manager.get_debug_color("label_background"), true)
+		draw_string(font, Vector2(-text_size.x / 2, y_offset), line, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.WHITE)
+		y_offset += font_size + 4
