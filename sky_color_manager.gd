@@ -115,21 +115,25 @@ func _interpolate_color_from_normalized_time(norm_time: float) -> Color:
 
 	return prev_waypoint.color.lerp(next_waypoint.color, t)
 
+# Legacy color lookup with fallback to interpolated color.
+func _get_legacy_color_for_time(time_value) -> Color:
+	if time_value == null:
+		return Color.WHITE
+	if sky_colors_per_time_of_day is Dictionary and sky_colors_per_time_of_day.has(time_value):
+		return sky_colors_per_time_of_day[time_value]
+	return _interpolate_color_from_normalized_time(float(time_value) / 6.0)
+
 # Legacy discrete signal handler (kept for backward compatibility)
 func _on_time_manager_time_of_day_changed(new_time: TimeManager.TimeOfDay) -> void:
 	print("_on_time_manager_time_of_day_changed in sky color manager")
 	if sky_color_rect:
 		print("sky_color_rect and timeManager in sky color manager")
-
-		var time_to_use = new_time
-		var target_color = sky_colors_per_time_of_day[time_to_use]
-
 		var dev_mode = get_tree().get_first_node_in_group("developer_mode")
+		var time_to_use = new_time
 		if dev_mode and dev_mode.is_developer_mode and dev_mode.use_manual_colors:
 			time_to_use = dev_mode.manual_time_of_day
-			target_color = sky_colors_per_time_of_day[time_to_use]
 
-		#var target_color = sky_colors_per_time_of_day[time_to_use]
+		var target_color = _get_legacy_color_for_time(time_to_use)
 
 		# Create smooth color transition
 		if tween:

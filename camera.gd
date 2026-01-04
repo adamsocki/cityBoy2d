@@ -1,10 +1,9 @@
 extends Camera2D
 
 # Camera follow properties
-@export var target_path: NodePath 
+@export var target_path: NodePath
 @export var follow_speed: float = 5.0
 @export var look_ahead_factor: float = 0.2
-@export var debug_camera_mode: bool
 
 # Dead zone properties
 @export var use_dead_zone: bool = true
@@ -19,6 +18,7 @@ var default_offset: Vector2 = offset
 # Target node reference
 var target: Node2D
 var dead_zone_rect: Rect2
+@onready var debug_draw_manager = get_node_or_null("/root/DebugDrawManager")
 
 func _ready() -> void:
 	if target_path:
@@ -66,18 +66,50 @@ func _process(delta):
 	if new_camera_pos != camera_pos:
 		global_position = global_position.lerp(new_camera_pos, follow_speed * delta)
 
+	# Trigger redraw if debug enabled
+	if DeveloperMode.is_developer_mode and debug_draw_manager and debug_draw_manager.draw_camera_dead_zones:
+		queue_redraw()
+
 func _physics_process(delta: float) -> void:
 	if not target:
 		return
 
-#		
+# Debug draw to visualize dead zone
+func _draw() -> void:
+	if not DeveloperMode.is_developer_mode:
+		return
+	if not debug_draw_manager:
+		return
+	if not debug_draw_manager.draw_camera_dead_zones:
+		return
+	if not use_dead_zone:
+		return
+
+	var color = debug_draw_manager.get_debug_color("dead_zone")
+	var line_width = debug_draw_manager.get_line_width("default")
+
+	# Draw filled dead zone
+	draw_rect(dead_zone_rect, color, true)
+
+	# Draw outline for better visibility
+	draw_rect(dead_zone_rect, Color.RED, false, line_width)
+
+	# Draw label
+	var font = ThemeDB.fallback_font
+	var font_size = 12
+	var label_text = "Camera Dead Zone"
+	var text_size = font.get_string_size(label_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
+	var label_pos = dead_zone_rect.position + Vector2(dead_zone_rect.size.x / 2 - text_size.x / 2, -8)
+
+	# Background for text
+	var bg_rect = Rect2(label_pos - Vector2(4, font_size), text_size + Vector2(8, 4))
+	draw_rect(bg_rect, debug_draw_manager.get_debug_color("label_background"), true)
+
+	# Text
+	draw_string(font, label_pos, label_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size,
+		debug_draw_manager.get_debug_color("label_text"))
+
 # Function to trigger screen shake
 func shake(amount: float, duration: float) -> void:
 	shake_amount = amount
 	shake_duration = duration
-
-# Optional: Debug draw to visualize dead zone (can be removed in production)
-func _draw() -> void:
-	if use_dead_zone and debug_camera_mode:
-		var color = Color(1, 0, 0, 0.2)
-		draw_rect(dead_zone_rect, color, true)

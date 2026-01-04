@@ -7,7 +7,7 @@ extends Node
 @export var pause_time_progression: bool = true
 @export var use_manual_colors: bool = true
 
-var debug_panel_scene = preload("res://debug_time_panel.tscn")
+var debug_panel_scene = preload("res://ui/debug/debug_panel.tscn")
 var debug_panel_instance: Control = null
 var canvas_layer: CanvasLayer = null
 
@@ -59,8 +59,20 @@ func toggle_developer_mode():
 
 	if is_developer_mode:
 		_show_debug_panel()
+		# Enable native collision shapes for easier debugging
+		get_tree().debug_collisions_hint = true
+		# Sync with DebugDrawManager
+		var debug_mgr = get_node_or_null("/root/DebugDrawManager")
+		if debug_mgr:
+			debug_mgr.native_collision_shapes = true
 	else:
 		_hide_debug_panel()
+		# Disable native collision shapes
+		get_tree().debug_collisions_hint = false
+		# Sync with DebugDrawManager
+		var debug_mgr = get_node_or_null("/root/DebugDrawManager")
+		if debug_mgr:
+			debug_mgr.native_collision_shapes = false
 
 	print("Developer mode: ", "ENABLED" if is_developer_mode else "DISABLED")
 
