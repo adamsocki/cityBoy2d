@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5hmq7rxvn8pc"]
+
+[ext_resource type="Script" path="res://ui/debug/physics_debug_tab.gd" id="1_physics_tab"]
+[ext_resource type="Script" path="res://ui/debug/collapsible_section.gd" id="2_collapsible"]
+
+[node name="PhysicsDebugTab" type="ScrollContainer"]
+offset_right = 380.0
+offset_bottom = 480.0
+script = ExtResource("1_physics_tab")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="VisualizationSection" type="VBoxContainer" parent="Content"]
+layout_mode = 2
+script = ExtResource("2_collapsible")
+section_title = "Visualization"
+
+[node name="VisualizationToggles" type="VBoxContainer" parent="Content/VisualizationSection"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NativeCollisionToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "Native Collision Shapes (Godot)"
+
+[node name="CollisionToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "Collision Shapes (Custom)"
+
+[node name="RaycastToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "Raycasts (Ground Detection)"
+
+[node name="VelocityToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "Velocity Vectors"
+
+[node name="StateToggle" type="CheckButton" parent="Content/VisualizationSection/VisualizationToggles"]
+layout_mode = 2
+text = "State Info (Labels)"
+
+[node name="PlayerInfoSection" type="VBoxContainer" parent="Content"]
+layout_mode = 2
+script = ExtResource("2_collapsible")
+section_title = "Player Info"
+
+[node name="InfoPanel" type="VBoxContainer" parent="Content/PlayerInfoSection"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlayerStateLabel" type="Label" parent="Content/PlayerInfoSection/InfoPanel"]
+layout_mode = 2
+text = "State: IDLE"
+
+[node name="VelocityLabel" type="Label" parent="Content/PlayerInfoSection/InfoPanel"]
+layout_mode = 2
+text = "Velocity: (0.0, 0.0)"
+
+[node name="GroundStatusLabel" type="Label" parent="Content/PlayerInfoSection/InfoPanel"]
+layout_mode = 2
+text = "Grounded: YES"

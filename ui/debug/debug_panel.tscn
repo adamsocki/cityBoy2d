@@ -1,0 +1,150 @@
+[gd_scene load_steps=5 format=3 uid="uid://b7q8fy5jn8rfk"]
+
+[ext_resource type="Script" path="res://ui/debug/debug_panel.gd" id="1_debug_panel"]
+[ext_resource type="PackedScene" uid="uid://cg8w3xrj4kpel" path="res://ui/debug/time_debug_tab.tscn" id="2_time_tab"]
+[ext_resource type="PackedScene" uid="uid://b5hmq7rxvn8pc" path="res://ui/debug/physics_debug_tab.tscn" id="3_physics_tab"]
+[ext_resource type="PackedScene" uid="uid://dj7r2k5vtm8wh" path="res://ui/debug/level_debug_tab.tscn" id="4_level_tab"]
+
+[node name="DebugPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 410.0
+offset_bottom = 510.0
+script = ExtResource("1_debug_panel")
+
+[node name="MinimizedBar" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BarRow" type="HBoxContainer" parent="MinimizedBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="MinimizedBar/BarRow"]
+layout_mode = 2
+text = "DEBUG"
+
+[node name="HSpacer" type="Control" parent="MinimizedBar/BarRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ExpandButton" type="Button" parent="MinimizedBar/BarRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(28, 28)
+text = "+"
+
+[node name="ExpandedPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ExpandedPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ExpandedPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleBar" type="PanelContainer" parent="ExpandedPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ExpandedPanel/MarginContainer/VBoxContainer/TitleBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="ExpandedPanel/MarginContainer/VBoxContainer/TitleBar/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DEBUG PANEL"
+
+[node name="HSpacer" type="Control" parent="ExpandedPanel/MarginContainer/VBoxContainer/TitleBar/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MinimizeButton" type="Button" parent="ExpandedPanel/MarginContainer/VBoxContainer/TitleBar/HBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(28, 28)
+text = "_"
+
+[node name="Separator1" type="HSeparator" parent="ExpandedPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ControlsHost" type="HBoxContainer" parent="ExpandedPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TabContainer" type="TabContainer" parent="ExpandedPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Time" parent="ExpandedPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("2_time_tab")]
+layout_mode = 2
+
+[node name="Physics" parent="ExpandedPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("3_physics_tab")]
+visible = false
+layout_mode = 2
+
+[node name="Level" parent="ExpandedPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("4_level_tab")]
+visible = false
+layout_mode = 2
+
+[node name="Separator2" type="HSeparator" parent="ExpandedPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ReloadButton" type="Button" parent="ExpandedPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Reload Current Scene"
+
+[node name="ResizeRight" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+
+[node name="ResizeBottom" type="Control" parent="."]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+
+[node name="ResizeCorner" type="ColorRect" parent="."]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -16.0
+color = Color(0.4, 0.4, 0.45, 0.8)
